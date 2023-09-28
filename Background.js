@@ -1,13 +1,14 @@
+import Options from "./Options.js";
+
 export default class Background {
-    constructor(imageUrl, width, height) {
-        this.imageUrl = imageUrl;
-        this.width = width;
-        this.height = height;
+    constructor() {
+        this.options = new Options();
+        this.Img = new Image();
     }
 
-    createBackground() {
-        const backgroundImage = new Image(this.width, this.height);
-        backgroundImage.src = this.imageUrl;
+    loadBackground() {
+        this.Img.src = this.options.background.src;
     }
+
 
 }

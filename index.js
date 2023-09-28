@@ -1,13 +1,16 @@
-import Canvas from './Canvas.js';
-import Background from './Background.js';
+import Game from "./game.js"
+import Options from "./Options.js";
 
-const canvas = document.getElementById('canvas');
+const options = new Options();
+const canvas = document.getElementById("canvas");
+canvas.width = options.canvas.width;
+canvas.height = options.canvas.height;
+const game = new Game(canvas);
 
-const newCanvas = new Canvas(canvas, 650, 500);
-const background = new Background(".assets/background.png", 4847, 1584);
-console.log(background);
-newCanvas.setCanvasDimentions()
+// document.addEventListener('keydown', (evt) => {
+//     if(evt.key === " " || evt.key === "Spacebar") {
+//         game.flapFish();
+//     }
+// });
 
-const context = canvas.getContext('2d');
-
-context.drawImage(backgroundImage, 0, 0);
+game.gameStart();
