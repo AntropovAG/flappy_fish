@@ -6,14 +6,18 @@ export default class Options {
         height: 406
     }
 
-    speedIndex = 3;
+    canvasFreeSpaceHeight = this.canvas.height * 1/4;
+    speedIndex = 2;
+    drownSpeed = 2;
+
 
     fish = {
         src: './assets/whale.png',
         x: 100,
         y: 100,
-        width: 60,
-        height: 30,
+        width: 40,
+        height: this.canvasFreeSpaceHeight / 5,
+        sweemUpHeight: this.canvasFreeSpaceHeight / 2,
         frames: [
             {
                 x: 76,
@@ -42,56 +46,6 @@ export default class Options {
         ]
     }
 
-    // fish = {
-    //     src: './assets/fish.png',
-    //     x: 100,
-    //     y: 150,
-    //     frames: [
-    //         {
-    //             x: 0,
-    //             y: 0,
-    //             width: 100,
-    //             height: 100
-    //         },
-    //         {
-    //             x: 0,
-    //             y: 0,
-    //             width: 100,
-    //             height: 100
-    //         },
-    //         {
-    //             x: 0,
-    //             y: 0,
-    //             width: 100,
-    //             height: 100
-    //         },
-    //         {
-    //             x: 0,
-    //             y: 0,
-    //             width: 100,
-    //             height: 100
-    //         },
-    //         {
-    //             x: 0,
-    //             y: 0,
-    //             width: 100,
-    //             height: 100
-    //         },
-    //         {
-    //             x: 0,
-    //             y: 0,
-    //             width: 100,
-    //             height: 100
-    //         },
-    //         {
-    //             x: 0,
-    //             y: 0,
-    //             width: 100,
-    //             height: 100
-    //         }
-    //     ]
-    // }
-
     background = {
         src: './assets/background.png',
         x: 0,
@@ -99,4 +53,26 @@ export default class Options {
         imgheight: 1584,
         imgwidth: 4847
     }
+
+    columns = {
+        src: './assets/columns.png',
+        speed: 3,
+        aspectRatio: 406 / 700,
+        width: 80,
+        height: 200,
+        topColumn: {
+            x: 425,
+            y: 68,
+            width: 204,
+            height: 700
+        },
+        bottomColumn: {
+            x: 100,
+            y: 68,
+            width: 204,
+            height: 700
+        }
+    }
+
+
 }

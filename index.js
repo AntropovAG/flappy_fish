@@ -7,10 +7,10 @@ canvas.width = options.canvas.width;
 canvas.height = options.canvas.height;
 const game = new Game(canvas);
 
-// document.addEventListener('keydown', (evt) => {
-//     if(evt.key === " " || evt.key === "Spacebar") {
-//         game.flapFish();
-//     }
-// });
+document.addEventListener('keydown', (evt) => {
+    if(evt.key === " " || evt.key === "Spacebar") {
+        game.sweemUp();
+    }
+});
 
 game.gameStart();
