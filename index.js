@@ -1,11 +1,14 @@
 import Game from "./game.js"
-import Options from "./Options.js";
+import { globalOptions } from "./Options.js";
 
-const options = new Options();
 const canvas = document.getElementById("canvas");
-canvas.width = options.canvas.width;
-canvas.height = options.canvas.height;
-const game = new Game(canvas);
+const panel = document.getElementById("panel");
+canvas.width = globalOptions.canvas.width;
+canvas.height = globalOptions.canvas.height;
+panel.width = globalOptions.panel.width;
+panel.height = globalOptions.panel.height;
+
+const game = new Game(canvas, panel);
 
 document.addEventListener('keydown', (evt) => {
     if(evt.key === " " || evt.key === "Spacebar") {

@@ -7,6 +7,11 @@ export default class Options {
         height: 406
     }
 
+    panel = {
+        width: this.canvas.width,
+        height: this.canvas.height / 4
+    }
+
     canvasFreeSpaceHeight = this.canvas.height * 1/4;
     speedIndex = 2;
     drownSpeed = 2;
@@ -58,20 +63,20 @@ export default class Options {
     columns = {
         src: './assets/columns.png',
         speed: 3,
-        aspectRatio: this.canvas.width / 700,
+        aspectRatio: this.canvas.width / 728,
         width: this.fish.width * 2,
         height: 200,
         topColumn: {
-            x: 425,
-            y: 68,
-            width: 204,
-            height: 700
+            x: 334,
+            y: 50,
+            width: 152,
+            height: 728
         },
         bottomColumn: {
-            x: 100,
-            y: 68,
-            width: 204,
-            height: 700
+            x: 103,
+            y: 50,
+            width: 152,
+            height: 728
         }
     }
 
