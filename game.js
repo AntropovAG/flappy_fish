@@ -11,7 +11,7 @@ export default class Game {
         this.columns = new Columns();
         this.score = 0;
         this.frameId = 0;
-        this.background = new Background('./assets/background.png', 600, 600);
+        this.background = new Background('./assets/background.png');
         this.index = 0;
         this.speed = globalOptions.speedIndex;
         this.y = 0;
@@ -24,7 +24,6 @@ export default class Game {
     gameStart() {
         this.background.loadBackground();
         this.background.setScaleFactors();
-        console.log(globalOptions.background)
         this.fish.loadFish();
         this.columns.loadColumns();
         this.fish.drown();
@@ -48,7 +47,6 @@ export default class Game {
 
         this.fish.move();
         this.drawFish();
-
         this.columns.createColumns();
         this.drawColumns();
 
@@ -63,15 +61,26 @@ export default class Game {
     }
 
     drawBackground() {
-        this.context.drawImage(this.background.Img, this.backgroundX + globalOptions.background.imgScaleWidth, 0, globalOptions.background.imgScaleWidth, globalOptions.background.imgScaleHeight);
-        this.context.drawImage(this.background.Img, this.backgroundX,                                           0, globalOptions.background.imgScaleWidth, globalOptions.background.imgScaleHeight);
+        this.context.drawImage(
+            this.background.Img, 
+            this.backgroundX + globalOptions.background.imgScaleWidth, 
+            0, 
+            globalOptions.background.imgScaleWidth, 
+            globalOptions.background.imgScaleHeight);
+
+        this.context.drawImage(
+            this.background.Img, 
+            this.backgroundX,
+            0, 
+            globalOptions.background.imgScaleWidth, 
+            globalOptions.background.imgScaleHeight);
     }
 
     drawFish() {
         if(this.fish.falling) {
             this.context.save();
             this.context.translate(globalOptions.fish.x, this.fish.y);
-            this.context.rotate(45 * Math.PI / 360);
+            this.context.rotate(this.fish.rotationAngle * Math.PI / 360);
             this.context.drawImage(
                 this.fish.img, 
                 globalOptions.fish.frames[this.frameId].x, 
@@ -86,7 +95,7 @@ export default class Game {
         } else {
             this.context.save();
             this.context.translate(globalOptions.fish.x, this.fish.y);
-            this.context.rotate(-45 * Math.PI / 360);
+            this.context.rotate(this.fish.rotationAngle * Math.PI / 360);
             this.context.drawImage(
                 this.fish.img, 
                 globalOptions.fish.frames[this.frameId].x, 
@@ -99,16 +108,6 @@ export default class Game {
                 globalOptions.fish.height)
             this.context.restore();
         }
-        // this.context.drawImage(
-        //     this.fish.img, 
-        //     globalOptions.fish.frames[this.frameId].x, 
-        //     globalOptions.fish.frames[this.frameId].y, 
-        //     globalOptions.fish.frames[this.frameId].width, 
-        //     globalOptions.fish.frames[this.frameId].height, 
-        //     globalOptions.fish.x,
-        //     this.fish.y,
-        //     globalOptions.fish.width, 
-        //     globalOptions.fish.height)
     }
 
     drawColumns() {
@@ -133,7 +132,6 @@ export default class Game {
                     globalOptions.columns.width,
                     this.columnsArray[i].bottomColdHeight);
         }
-
     }
 
     sweemUp() {

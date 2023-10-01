@@ -5,9 +5,6 @@ export default class Options {
     canvas = {
         width: 600,
         height: 406
-
-        // width: 800,
-        // height: 600
     }
 
     canvasFreeSpaceHeight = this.canvas.height * 1/4;
@@ -55,10 +52,7 @@ export default class Options {
         x: 0,
         y: 0,
         imgheight: 1584,
-        imgwidth: 4847,
-        imgScaleFactor: this.imgheight / this.canvas.height,
-        imgScaleHeight: this.imgheight / this.imgScaleFactor,
-        imgScaleWidth: this.imgScaleWidth / this.imgScaleFactor
+        imgwidth: 4847
     }
 
     columns = {
