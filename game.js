@@ -1,6 +1,6 @@
 import Background from "./Background.js";
 import Fish from "./Fish.js";
-import Options from "./Options.js";
+import { globalOptions } from "./Options.js";
 import Columns from "./Columns.js";
 
 export default class Game {
@@ -12,17 +12,19 @@ export default class Game {
         this.score = 0;
         this.frameId = 0;
         this.background = new Background('./assets/background.png', 600, 600);
-        this.options = new Options();
         this.index = 0;
-        this.speed = this.options.speedIndex;
+        this.speed = globalOptions.speedIndex;
         this.y = 0;
         this.timeStamp = 0;
         this.request;
         this.columnsArray = this.columns.columns;
+        this.degree = 0;
     }
 
     gameStart() {
         this.background.loadBackground();
+        this.background.setScaleFactors();
+        console.log(globalOptions.background)
         this.fish.loadFish();
         this.columns.loadColumns();
         this.fish.drown();
@@ -39,58 +41,96 @@ export default class Game {
         this.timeStamp = timeStamp;
 
         this.index += .3;
-        this.backgroundX = -((this.index * this.speed) % 1224);
-        this.context.drawImage(this.background.Img, this.backgroundX + 1224, 0, 1224, 406);
-        this.context.drawImage(this.background.Img, this.backgroundX, 0, 1224, 406);
+        this.backgroundX = -((this.index * this.speed) % globalOptions.background.imgScaleWidth);
+
+        this.clear();
+        this.drawBackground()
 
         this.fish.move();
         this.drawFish();
 
         this.columns.createColumns();
         this.drawColumns();
+
         if (this.columnsArray.length > 0) this.columns.moveColumns();
 
 
-        if((this.fish.y + this.options.fish.height) >= this.canvas.height) {
-            console.log("Game Over!");
+        if((this.fish.y + globalOptions.fish.height) >= this.canvas.height) {
+            // console.log("Game Over!");
         }
 
             this.request = window.requestAnimationFrame(this.render.bind(this));
-        
+    }
+
+    drawBackground() {
+        this.context.drawImage(this.background.Img, this.backgroundX + globalOptions.background.imgScaleWidth, 0, globalOptions.background.imgScaleWidth, globalOptions.background.imgScaleHeight);
+        this.context.drawImage(this.background.Img, this.backgroundX,                                           0, globalOptions.background.imgScaleWidth, globalOptions.background.imgScaleHeight);
     }
 
     drawFish() {
-        this.context.drawImage(
-            this.fish.img, 
-            this.options.fish.frames[this.frameId].x, 
-            this.options.fish.frames[this.frameId].y, 
-            this.options.fish.frames[this.frameId].width, 
-            this.options.fish.frames[this.frameId].height, 
-            this.options.fish.x,
-            this.fish.y,
-            this.options.fish.width, 
-            this.options.fish.height)
+        if(this.fish.falling) {
+            this.context.save();
+            this.context.translate(globalOptions.fish.x, this.fish.y);
+            this.context.rotate(45 * Math.PI / 360);
+            this.context.drawImage(
+                this.fish.img, 
+                globalOptions.fish.frames[this.frameId].x, 
+                globalOptions.fish.frames[this.frameId].y, 
+                globalOptions.fish.frames[this.frameId].width, 
+                globalOptions.fish.frames[this.frameId].height, 
+                0 - globalOptions.fish.height,
+                0 - globalOptions.fish.width,
+                globalOptions.fish.width, 
+                globalOptions.fish.height)
+            this.context.restore();
+        } else {
+            this.context.save();
+            this.context.translate(globalOptions.fish.x, this.fish.y);
+            this.context.rotate(-45 * Math.PI / 360);
+            this.context.drawImage(
+                this.fish.img, 
+                globalOptions.fish.frames[this.frameId].x, 
+                globalOptions.fish.frames[this.frameId].y, 
+                globalOptions.fish.frames[this.frameId].width, 
+                globalOptions.fish.frames[this.frameId].height, 
+                0 - globalOptions.fish.height,
+                0 - globalOptions.fish.width,
+                globalOptions.fish.width, 
+                globalOptions.fish.height)
+            this.context.restore();
+        }
+        // this.context.drawImage(
+        //     this.fish.img, 
+        //     globalOptions.fish.frames[this.frameId].x, 
+        //     globalOptions.fish.frames[this.frameId].y, 
+        //     globalOptions.fish.frames[this.frameId].width, 
+        //     globalOptions.fish.frames[this.frameId].height, 
+        //     globalOptions.fish.x,
+        //     this.fish.y,
+        //     globalOptions.fish.width, 
+        //     globalOptions.fish.height)
     }
 
     drawColumns() {
             for (let i=0; i < this.columnsArray.length; i++){ 
                 this.context.drawImage(this.columns.img, 
-                    this.options.columns.topColumn.x, // sx
-                    this.columnsArray[i].topColsy, // sy
-                    /* Source width*/  this.options.columns.topColumn.width,
-                    /* Source height*/ this.columnsArray[i].topColsHeight, 
+                    globalOptions.columns.topColumn.x,
+                    this.columnsArray[i].topColsy,
+                    globalOptions.columns.topColumn.width,
+                    this.columnsArray[i].topColsHeight, 
                     this.columnsArray[i].x,
                     0,
-                    this.options.columns.width,
-                    /* Canvas height*/ this.columnsArray[i].topColdHeight,)
+                    globalOptions.columns.width,
+                    this.columnsArray[i].topColdHeight,)
+
                 this.context.drawImage(this.columns.img, 
-                    this.options.columns.bottomColumn.x,
+                    globalOptions.columns.bottomColumn.x,
                     this.columnsArray[i].bottomColsy,
-                    this.options.columns.bottomColumn.width,
+                    globalOptions.columns.bottomColumn.width,
                     this.columnsArray[i].bottomColsHeight,
                     this.columnsArray[i].x,
                     this.canvas.height - this.columnsArray[i].bottomColdHeight,
-                    this.options.columns.width,
+                    globalOptions.columns.width,
                     this.columnsArray[i].bottomColdHeight);
         }
 
@@ -98,6 +138,10 @@ export default class Game {
 
     sweemUp() {
         this.fish.sweemUp()
+    }
+
+    clear() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
 }

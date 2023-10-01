@@ -1,38 +1,38 @@
-import Options from "./Options.js" 
+import { globalOptions } from "./Options.js";
 
 export default class Columns {
     constructor() {
-        this.options = new Options();
         this.img = new Image();
         this.x = 0;
-        this.width = this.options.columns.width;
-        this.speed = this.options.columns.speed
+        this.width = globalOptions.columns.width;
+        this.speed = globalOptions.columns.speed
         this.columns = [];
         this.startTime = Date.now();
+        this.columnCreationPeriod = 1000;
     }
 
     loadColumns() {
-        this.img.src = this.options.columns.src;
+        this.img.src = globalOptions.columns.src;
     }
 
     createColumns() {
-        if ((Date.now() - this.startTime) > 1000) {
-            let topColumndHeight = Math.random() * (this.options.canvas.height - this.options.canvasFreeSpaceHeight);
-            let topColumnSHeight = topColumndHeight / this.options.columns.aspectRatio;
+        if ((Date.now() - this.startTime) > this.columnCreationPeriod) {
+            let topColumndHeight = Math.random() * (globalOptions.canvas.height - globalOptions.canvasFreeSpaceHeight);
+            let topColumnSHeight = topColumndHeight / globalOptions.columns.aspectRatio;
             
-            let bottomColumndHeight = (this.options.canvas.height - this.options.canvasFreeSpaceHeight) - topColumndHeight;
-            let bottomColumnSHeight = bottomColumndHeight / this.options.columns.aspectRatio;
+            let bottomColumndHeight = (globalOptions.canvas.height - globalOptions.canvasFreeSpaceHeight) - topColumndHeight;
+            let bottomColumnSHeight = bottomColumndHeight / globalOptions.columns.aspectRatio;
 
             let newColumn = {
-                topColsy: this.options.columns.topColumn.height - topColumnSHeight + this.options.columns.topColumn.y,
+                topColsy: globalOptions.columns.topColumn.height - topColumnSHeight + globalOptions.columns.topColumn.y,
                 topColsHeight: topColumnSHeight,
                 topColdHeight: topColumndHeight,
 
-                bottomColsy: this.options.columns.bottomColumn.y,
+                bottomColsy: globalOptions.columns.bottomColumn.y,
                 bottomColsHeight: bottomColumnSHeight,
                 bottomColdHeight: bottomColumndHeight,
             }
-            newColumn.x = this.options.canvas.width;
+            newColumn.x = globalOptions.canvas.width;
             this.columns.push(newColumn);
             this.startTime = Date.now();
         }
@@ -41,8 +41,8 @@ export default class Columns {
     
     moveColumns() {
         for (let i = this.columns.length - 1; i >= 0; i--){
-            this.columns[i].x -= (this.options.columns.width * 4)/145;
-            if((this.columns[i].x + this.options.columns.width) < 0) {
+            this.columns[i].x -= (globalOptions.columns.width * 4)/145;
+            if((this.columns[i].x + globalOptions.columns.width) < 0) {
                 this.columns.shift();
             }
         }

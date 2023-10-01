@@ -1,9 +1,13 @@
 export default class Options {
     constructor() {}
 
+
     canvas = {
-        width: 640,
+        width: 600,
         height: 406
+
+        // width: 800,
+        // height: 600
     }
 
     canvasFreeSpaceHeight = this.canvas.height * 1/4;
@@ -14,8 +18,8 @@ export default class Options {
     fish = {
         src: './assets/whale.png',
         x: 100,
-        y: 100,
-        width: 40,
+        y: 160,
+        width: (this.canvasFreeSpaceHeight / 5) * 2,
         height: this.canvasFreeSpaceHeight / 5,
         sweemUpHeight: this.canvasFreeSpaceHeight / 2,
         frames: [
@@ -51,14 +55,17 @@ export default class Options {
         x: 0,
         y: 0,
         imgheight: 1584,
-        imgwidth: 4847
+        imgwidth: 4847,
+        imgScaleFactor: this.imgheight / this.canvas.height,
+        imgScaleHeight: this.imgheight / this.imgScaleFactor,
+        imgScaleWidth: this.imgScaleWidth / this.imgScaleFactor
     }
 
     columns = {
         src: './assets/columns.png',
         speed: 3,
-        aspectRatio: 406 / 700,
-        width: 80,
+        aspectRatio: this.canvas.width / 700,
+        width: this.fish.width * 2,
         height: 200,
         topColumn: {
             x: 425,
@@ -76,3 +83,6 @@ export default class Options {
 
 
 }
+
+let globalOptions = new Options()
+export { globalOptions }

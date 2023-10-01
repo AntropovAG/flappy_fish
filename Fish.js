@@ -1,21 +1,21 @@
-import Options from "./Options.js";
+import { globalOptions } from "./Options.js";
 
 export default class Fish {
     constructor(context) {
-        this.options = new Options();
-        this.y = this.options.fish.y;
+        this.y = globalOptions.fish.y;
         this.img = new Image();
-        this.SweemUpDuration = 2000;
+        this.SweemUpDuration = 200;
+        this.sweemUpHeight = globalOptions.fish.sweemUpHeight;
         this.fallingStartTime = Date.now();
         this.sqr = 1.3;
         this.quantizer = 800;
-        this.FallingAcceleration = 1;
+        this.FallingAcceleration = 2  ;
         this.JumpAcceleration = 0.5;
         this.context = context;
     }
 
     loadFish() {
-        this.img.src = this.options.fish.src;
+        this.img.src = globalOptions.fish.src;
     }
 
     move() {
@@ -26,9 +26,9 @@ export default class Fish {
                 this.drown();
                 return
             }
-            let deltaUp = this.JumpAcceleration * Math.pow((this.sweemUpEndTime - Date.now()) / this.quantizer, this.sqr);
-            this.y -= deltaUp;
-            
+            let deltaUp = (Date.now() - this.sweemUpTime) * (this.sweemUpHeight / this.SweemUpDuration);
+            this.sweemUpTime = Date.now();
+            this.y -= deltaUp;       
         }
         if(this.y < 0) {
             this.y = 0;
@@ -41,6 +41,7 @@ export default class Fish {
 
     sweemUp() {
         this.falling = false;
+        this.sweemUpTime = Date.now();
         this.sweemUpEndTime = Date.now() + this.SweemUpDuration;
         this.fallingStartTime = Date.now();
     }
