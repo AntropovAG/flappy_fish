@@ -49,13 +49,9 @@ export default class Game {
         this.drawFish();
         this.columns.createColumns();
         this.drawColumns();
-
         if (this.columnsArray.length > 0) this.columns.moveColumns();
 
-
-        if((this.fish.y + globalOptions.fish.height) >= this.canvas.height) {
-            // console.log("Game Over!");
-        }
+        this.checkCollision()
 
             this.request = window.requestAnimationFrame(this.render.bind(this));
     }
@@ -133,6 +129,35 @@ export default class Game {
                     this.columnsArray[i].bottomColdHeight);
         }
     }
+
+    checkCollision() {
+        const fishTop = this.fish.y;
+        const fishBottom = this.fish.y + globalOptions.fish.height;
+        const fishLeft = globalOptions.fish.x;
+        const fishRight = globalOptions.fish.x + globalOptions.fish.width;
+
+        if((this.fish.y + globalOptions.fish.height) >= this.canvas.height){
+            console.log('collided floor')
+        }
+        
+        for(let i = 0; i < this.columnsArray.length; i++){
+            const columnLeft = this.columnsArray[i].x;
+            const columnRight = this.columnsArray[i].x + globalOptions.columns.width;
+            const topColumnTop = 0;
+            const topColumnBottom = this.columnsArray[i].topColdHeight;
+            const bottomColumnTop = this.columnsArray[i].bottomColdHeight;
+            const bottomColumnBottom = globalOptions.canvas.height;
+
+            if(fishRight > columnLeft && fishLeft < columnRight && fishTop < topColumnBottom && fishBottom > topColumnTop) {
+                console.log('collided with top column!')
+            }
+
+            if(fishRight > columnLeft && fishLeft < columnRight && fishTop < bottomColumnBottom && fishBottom > bottomColumnTop) {
+                console.log('collided with bottom column!')
+            }
+        }
+    }
+
 
     sweemUp() {
         this.fish.sweemUp()
