@@ -7,11 +7,10 @@ const canvas = document.getElementById("canvas");
 const visibleScreenWidth = document.documentElement.clientWidth;
 canvas.width = visibleScreenWidth - 200;
 canvas.height = visibleScreenWidth / 2;
-globalOptions.canvas.width = visibleScreenWidth - 200;
-globalOptions.canvas.height = visibleScreenWidth / 2;
+globalOptions.initialize(visibleScreenWidth - 200, visibleScreenWidth / 2);
 
 const game = new Game(canvas);
-// console.log(game.fish.fallingStartTime)
+
 game.createLoadScreen();
 
 const startGame = () => {

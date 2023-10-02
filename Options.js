@@ -1,17 +1,19 @@
 export default class Options {
     constructor() {}
 
-    canvas = {
-        width: 600,
-        height: 406
+    initialize(canvasWidth, canvasHeight) {
+
+    this.canvas = {
+        width: canvasWidth,
+        height: canvasHeight
     };
 
-    canvasFreeSpaceHeight = this.canvas.height * 1/4;
-    speedIndex = 2;
-    drownSpeed = 2;
+    this.canvasFreeSpaceHeight = this.canvas.height * 1/4;
+    this.speedIndex = 2;
+    this.drownSpeed = 2;
 
 
-    fish = {
+    this.fish = {
         src: './assets/whale.png',
         x: 100,
         y: 160,
@@ -46,7 +48,7 @@ export default class Options {
         ]
     };
 
-    background = {
+    this.background = {
         src: './assets/background.png',
         x: 0,
         y: 0,
@@ -54,10 +56,10 @@ export default class Options {
         imgwidth: 4847
     };
 
-    columns = {
+    this.columns = {
         src: './assets/columns.png',
         speed: 3,
-        aspectRatio: this.canvas.width / 728,
+        aspectRatio: this.canvas.height / 728,
         width: this.fish.width * 2,
         height: 200,
         topColumn: {
@@ -74,7 +76,7 @@ export default class Options {
         }
     };
 
-    menuAssets = {
+    this.menuAssets = {
         src: './assets/menu_assets.png',
         scorePanel: {
             x: 160,
@@ -89,6 +91,8 @@ export default class Options {
             height: 577
         }
     }
+
+}
 
 }
 
