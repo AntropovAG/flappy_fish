@@ -1,16 +1,10 @@
 export default class Options {
     constructor() {}
 
-
     canvas = {
         width: 600,
         height: 406
-    }
-
-    panel = {
-        width: this.canvas.width,
-        height: this.canvas.height / 4
-    }
+    };
 
     canvasFreeSpaceHeight = this.canvas.height * 1/4;
     speedIndex = 2;
@@ -50,7 +44,7 @@ export default class Options {
                 height: 580
             }
         ]
-    }
+    };
 
     background = {
         src: './assets/background.png',
@@ -58,7 +52,7 @@ export default class Options {
         y: 0,
         imgheight: 1584,
         imgwidth: 4847
-    }
+    };
 
     columns = {
         src: './assets/columns.png',
@@ -78,8 +72,23 @@ export default class Options {
             width: 152,
             height: 728
         }
-    }
+    };
 
+    menuAssets = {
+        src: './assets/menu_assets.png',
+        scorePanel: {
+            x: 160,
+            y: 18,
+            width: 995,
+            height: 1534
+        },
+        restartButton: {
+            x: 1160,
+            y: 316,
+            width: 1188,
+            height: 577
+        }
+    }
 
 }
 

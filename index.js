@@ -2,13 +2,23 @@ import Game from "./game.js"
 import { globalOptions } from "./Options.js";
 
 const canvas = document.getElementById("canvas");
-const panel = document.getElementById("panel");
-canvas.width = globalOptions.canvas.width;
-canvas.height = globalOptions.canvas.height;
-panel.width = globalOptions.panel.width;
-panel.height = globalOptions.panel.height;
+// canvas.width = globalOptions.canvas.width;
+// canvas.height = globalOptions.canvas.height;
+const visibleScreenWidth = document.documentElement.clientWidth;
+canvas.width = visibleScreenWidth - 200;
+canvas.height = visibleScreenWidth / 2;
+globalOptions.canvas.width = visibleScreenWidth - 200;
+globalOptions.canvas.height = visibleScreenWidth / 2;
 
-const game = new Game(canvas, panel);
+const game = new Game(canvas);
+// console.log(game.fish.fallingStartTime)
+game.createLoadScreen();
+
+const startGame = () => {
+    console.log('startGame_from_index');
+    canvas.removeEventListener('mousedown', startGame)
+    game.gameStart();
+}
 
 document.addEventListener('keydown', (evt) => {
     if(evt.key === " " || evt.key === "Spacebar") {
@@ -16,4 +26,6 @@ document.addEventListener('keydown', (evt) => {
     }
 });
 
-game.gameStart();
+
+
+canvas.addEventListener('mousedown', startGame);

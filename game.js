@@ -3,35 +3,36 @@ import Fish from "./Fish.js";
 import { globalOptions } from "./Options.js";
 import Columns from "./Columns.js";
 import Score from "./Score.js";
+import DrawLogic from "./DrawLogic.js";
+
 
 export default class Game {
-    constructor(canvas, panel) {
+    constructor(canvas) {
         this.canvas = canvas;
         this.context = canvas.getContext("2d");
-        this.panel = panel;
-        this.panelContext = panel.getContext("2d");
-        this.fish = new Fish(this.context);
-        this.columns = new Columns();
+        this.drawLogic = new DrawLogic();
         this.frameId = 0;
-        this.background = new Background('./assets/background.png');
-        this.score = new Score();
+        this.storedScore = localStorage.getItem('max_score') ? localStorage.getItem('max_score') : 0;
         this.index = 0;
         this.speed = globalOptions.speedIndex;
         this.y = 0;
         this.timeStamp = 0;
         this.request;
-        this.columnsArray = this.columns.columns;
+        this.columnsArray;
+        this.resetGameListener = this.newGame.bind(this);
     }
 
     gameStart() {
+        this.resetGame();
         this.isLost = false;
+        this.score.score = 0;
         this.background.loadBackground();
         this.background.setScaleFactors();
         this.fish.loadFish();
         this.columns.loadColumns();
+        this.score.loadScoreAssets();
         this.fish.drown();
-        this.columns.createColumns();
-        this.render();    
+        this.render();
     }
     
     render(timeStamp) {
@@ -44,10 +45,8 @@ export default class Game {
 
         this.index += .3;
         this.backgroundX = -((this.index * this.speed) % globalOptions.background.imgScaleWidth);
-
         this.clear();
         this.drawBackground()
-        this.drawPanel();
         this.fish.move();
         this.drawFish();
         this.columns.createColumns();
@@ -57,10 +56,39 @@ export default class Game {
             this.score.scoreIncrease();
             console.log(this.score.score)
         };
+        this.score.displayScore();
 
         if (this.columnsArray.length > 0) this.columns.moveColumns();
 
-        if (!this.isLost) this.request = window.requestAnimationFrame(this.render.bind(this));
+        this.request = window.requestAnimationFrame(this.render.bind(this));
+
+        if(this.isLost) {
+            window.cancelAnimationFrame(this.request);
+            this.context.drawImage(
+                this.score.image, 
+                globalOptions.menuAssets.restartButton.x,  
+                globalOptions.menuAssets.restartButton.y, 
+                globalOptions.menuAssets.restartButton.width, 
+                globalOptions.menuAssets.restartButton.height,
+                (this.canvas.width / 2) - 100, 
+                (this.canvas.height / 2) - 50,
+                200,
+                100);
+            this.canvas.addEventListener('mousedown',  this.resetGameListener)
+        }
+    }
+
+    newGame() {
+        this.canvas.removeEventListener('mousedown', this.resetGameListener);
+        this.gameStart();
+    }
+
+    resetGame() {
+        this.fish = new Fish(this.context);
+        this.columns = new Columns();
+        this.background = new Background();
+        this.score = new Score(this.storedScore, this.context);
+        this.columnsArray = this.columns.columns;
     }
 
     drawBackground() {
@@ -195,13 +223,26 @@ export default class Game {
         this.fish.sweemUp()
     }
 
+    createLoadScreen() {
+        const startButtonImage = new Image();
+        startButtonImage.src = globalOptions.menuAssets.src;
+
+        startButtonImage.onload = () => {
+            this.context.drawImage(
+                startButtonImage, 
+                globalOptions.menuAssets.restartButton.x,  
+                globalOptions.menuAssets.restartButton.y, 
+                globalOptions.menuAssets.restartButton.width, 
+                globalOptions.menuAssets.restartButton.height,
+                (this.canvas.width / 2) - 100, 
+                (this.canvas.height / 2) - 50,
+                200,
+                100)};
+    }
+
 
     clear() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-
-    drawPanel() {
-        this.panelContext.drawImage(this.background.Img, 0, 0)
     }
 
 }

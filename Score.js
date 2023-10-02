@@ -1,16 +1,22 @@
+import { globalOptions } from "./Options.js";
+
 export default class Score {
-    constructor(scoreTable, maxScoreTable, storedScore) {
-        // this.scoreTable = scoreTable;
-        // this.maxScoreTable = maxScoreTable;
-        // this.maxScore = storedScore;
+    constructor(storedScore, context) {
+        this.maxScore = storedScore;
+        this.context = context;
         this.score = 0;
+        this.image = new Image();
+    }
+
+    loadScoreAssets() {
+        this.image.src = globalOptions.menuAssets.src;
     }
 
     scoreIncrease() {
         this.score += 1;
-        // if (this.score > this.maxScore) {
-        //     localStorage.setItem('max_score', this.score);
-        // }
+        if (this.score > this.maxScore) {
+            localStorage.setItem('max_score', this.score);
+        }
     }
 
     resetScore() {
@@ -21,8 +27,22 @@ export default class Score {
         if (this.score > this.maxScore) {
             this.maxScore = this.score;
         }
-        this.scoreTable.textContent = `current score: ${this.score}`;
-        this.maxScoreTable.textContent = `max score: ${this.maxScore}`;
+
+        this.context.drawImage(
+            this.image,
+            globalOptions.menuAssets.scorePanel.x,
+            globalOptions.menuAssets.scorePanel.y,
+            globalOptions.menuAssets.scorePanel.width,
+            globalOptions.menuAssets.scorePanel.height,
+            10,
+            10,
+            globalOptions.canvasFreeSpaceHeight / 1.5, 
+            globalOptions.canvasFreeSpaceHeight);
+            this.context.fillStyle = 'brown';
+            this.context.font = "1.8em bold";
+            this.context.textAlign = 'center';
+            this.context.fillText(this.score, 45, 53);
+            this.context.fillText(this.maxScore, 45, 83);
     }
 
 
