@@ -64,7 +64,7 @@ export default class Game {
             this.sounds.scoreGained.play();
         };
 
-        this.gameDifficultyUp();
+        this.increaseGameDifficulty();
         this.drawEngine.displayScore(this.score);
 
         if (this.columnsArray.length > 0) this.columns.moveColumns();
@@ -172,7 +172,7 @@ export default class Game {
         }
     }
 
-    gameDifficultyUp() {
+    increaseGameDifficulty() {
         if(this.score.score === 10) {
             this.speed += .5;
         }
