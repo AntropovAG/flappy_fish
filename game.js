@@ -99,6 +99,7 @@ export default class Game {
         this.fish = new Fish(this.context);
         this.columns = new Columns();
         this.background = new Background();
+        this.storedScore = localStorage.getItem('max_score') ? localStorage.getItem('max_score') : 0;
         this.score = new Score(this.storedScore, this.context);
         this.sounds = new Sounds();
         this.columnsArray = this.columns.columns;

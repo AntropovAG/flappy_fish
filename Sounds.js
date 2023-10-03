@@ -11,4 +11,6 @@ export default class Sounds {
         this.gameTheme.play();
     }
 
+    
+
 }
