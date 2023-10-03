@@ -1,7 +1,7 @@
 import { globalOptions } from "./Options.js";
 
 export default class Fish {
-    constructor(context) {
+    constructor() {
         this.y = globalOptions.fish.y;
         this.SweemUpDuration = 200;
         this.sweemUpHeight = globalOptions.fish.sweemUpHeight;
@@ -10,7 +10,6 @@ export default class Fish {
         this.quantizer = 800;
         this.FallingAcceleration = 2  ;
         this.JumpAcceleration = 0.5;
-        this.context = context;
         this.rotationAngle = 0;
         this.rotationSpeed = 45 / this.SweemUpDuration;
     }

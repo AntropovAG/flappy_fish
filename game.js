@@ -96,7 +96,7 @@ export default class Game {
     }
 
     resetGame() {
-        this.fish = new Fish(this.context);
+        this.fish = new Fish();
         this.columns = new Columns();
         this.background = new Background();
         this.storedScore = localStorage.getItem('max_score') ? localStorage.getItem('max_score') : 0;
@@ -267,8 +267,14 @@ export default class Game {
     }
 
     gameDifficultyUp() {
-        if(this.score.score > 10) {
-            this.speed *= 2;
+        if(this.score.score === 10) {
+            this.speed += .5;
+        }
+        if(this.score.score === 20) {
+            this.speed += .5;
+        }
+        if(this.score.score === 50) {
+            this.speed += .5;
         }
     }
 
