@@ -8,7 +8,7 @@ export default class Fish {
         this.fallingStartTime = Date.now();
         this.sqr = 1.3;
         this.quantizer = 800;
-        this.FallingAcceleration = 2  ;
+        this.FallingAcceleration = 2;
         this.JumpAcceleration = 0.5;
         this.rotationAngle = 0;
         this.rotationSpeed = 45 / this.SweemUpDuration;

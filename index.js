@@ -17,7 +17,7 @@ const startGame = () => {
 }
 
 document.addEventListener('keydown', (evt) => {
-    if(evt.key === " " || evt.key === "Spacebar") {
+    if (evt.key === " " || evt.key === "Spacebar") {
         game.sweemUp();
     }
 });

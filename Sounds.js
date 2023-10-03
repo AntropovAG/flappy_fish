@@ -7,10 +7,7 @@ export default class Sounds {
 
     playGameTheme() {
         this.gameTheme.loop = true;
-        this.gameTheme.volume = .5;
+        this.gameTheme.volume = 0.5;
         this.gameTheme.play();
     }
-
-    
-
 }

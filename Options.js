@@ -1,5 +1,5 @@
 export default class Options {
-    constructor() {}
+    constructor() { }
 
     loadImgAsset(src) {
         return new Promise((resolve, reject) => {
@@ -24,7 +24,7 @@ export default class Options {
             height: Math.max(canvasHeight, 400)
         };
 
-        this.canvasFreeSpaceHeight = this.canvas.height * 1/4;
+        this.canvasFreeSpaceHeight = this.canvas.height * 1 / 4;
         this.speedIndex = 2;
         this.drownSpeed = 2;
 
@@ -194,7 +194,7 @@ export default class Options {
                 sy: 123,
                 sWidth: 110,
                 sheight: 163,
-            },0                                                                                                                                                                                                                                                                                                                                                                                                                                          
+            }, 0
         ];
 
         this.sounds = {

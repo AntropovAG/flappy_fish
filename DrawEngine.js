@@ -9,34 +9,34 @@ export default class DrawEngine {
 
     drawBackground(image, backgroundX) {
         this.context.drawImage(
-            image, 
-            backgroundX + globalOptions.background.imgScaleWidth, 
-            0, 
-            globalOptions.background.imgScaleWidth, 
+            image,
+            backgroundX + globalOptions.background.imgScaleWidth,
+            0,
+            globalOptions.background.imgScaleWidth,
             globalOptions.background.imgScaleHeight);
 
         this.context.drawImage(
-            image, 
+            image,
             backgroundX,
-            0, 
-            globalOptions.background.imgScaleWidth, 
+            0,
+            globalOptions.background.imgScaleWidth,
             globalOptions.background.imgScaleHeight);
     }
 
     drawFish(fish, frameId) {
-        if(fish.falling) {
+        if (fish.falling) {
             this.context.save();
             this.context.translate(globalOptions.fish.x + globalOptions.fish.width / 2, fish.y + globalOptions.fish.height / 2);
             this.context.rotate(fish.rotationAngle * Math.PI / 360);
             this.context.drawImage(
-                fish.img, 
-                globalOptions.fish.frames[frameId].x, 
-                globalOptions.fish.frames[frameId].y, 
-                globalOptions.fish.frames[frameId].width, 
+                fish.img,
+                globalOptions.fish.frames[frameId].x,
+                globalOptions.fish.frames[frameId].y,
+                globalOptions.fish.frames[frameId].width,
                 globalOptions.fish.frames[frameId].height,
                 -(globalOptions.fish.width / 2),
                 -(globalOptions.fish.height / 2),
-                globalOptions.fish.width, 
+                globalOptions.fish.width,
                 globalOptions.fish.height)
             this.context.restore();
         } else {
@@ -44,42 +44,42 @@ export default class DrawEngine {
             this.context.translate(globalOptions.fish.x + globalOptions.fish.width / 2, fish.y + globalOptions.fish.height / 2);
             this.context.rotate(fish.rotationAngle * Math.PI / 360);
             this.context.drawImage(
-                fish.img,   
-                globalOptions.fish.frames[frameId].x, 
-                globalOptions.fish.frames[frameId].y, 
-                globalOptions.fish.frames[frameId].width, 
-                globalOptions.fish.frames[frameId].height, 
-                -(globalOptions.fish.width  / 2),
+                fish.img,
+                globalOptions.fish.frames[frameId].x,
+                globalOptions.fish.frames[frameId].y,
+                globalOptions.fish.frames[frameId].width,
+                globalOptions.fish.frames[frameId].height,
+                -(globalOptions.fish.width / 2),
                 -(globalOptions.fish.height / 2),
-                globalOptions.fish.width, 
+                globalOptions.fish.width,
                 globalOptions.fish.height)
             this.context.restore();
         }
-        
+
     }
 
     drawColumns(columnsArray, image) {
-            for (let i=0; i < columnsArray.length; i++){
+        for (let i = 0; i < columnsArray.length; i++) {
 
-                this.context.drawImage(image, 
-                    globalOptions.columns.topColumn.x,
-                    columnsArray[i].topColsy,
-                    globalOptions.columns.topColumn.width,
-                    columnsArray[i].topColsHeight, 
-                    columnsArray[i].x,
-                    0,
-                    globalOptions.columns.width,
-                    columnsArray[i].topColdHeight)
+            this.context.drawImage(image,
+                globalOptions.columns.topColumn.x,
+                columnsArray[i].topColsy,
+                globalOptions.columns.topColumn.width,
+                columnsArray[i].topColsHeight,
+                columnsArray[i].x,
+                0,
+                globalOptions.columns.width,
+                columnsArray[i].topColdHeight)
 
-                this.context.drawImage(image, 
-                    globalOptions.columns.bottomColumn.x,
-                    columnsArray[i].bottomColsy,
-                    globalOptions.columns.bottomColumn.width,
-                    columnsArray[i].bottomColsHeight,
-                    columnsArray[i].x,
-                    globalOptions.canvas.height - columnsArray[i].bottomColdHeight,
-                    globalOptions.columns.width,
-                    columnsArray[i].bottomColdHeight);
+            this.context.drawImage(image,
+                globalOptions.columns.bottomColumn.x,
+                columnsArray[i].bottomColsy,
+                globalOptions.columns.bottomColumn.width,
+                columnsArray[i].bottomColsHeight,
+                columnsArray[i].x,
+                globalOptions.canvas.height - columnsArray[i].bottomColdHeight,
+                globalOptions.columns.width,
+                columnsArray[i].bottomColdHeight);
         }
     }
 
@@ -95,12 +95,12 @@ export default class DrawEngine {
             globalOptions.menuAssets.scorePanel.height,
             10,
             10,
-            globalOptions.menuAssets.scorePanel.dislayWidth, 
+            globalOptions.menuAssets.scorePanel.dislayWidth,
             globalOptions.menuAssets.scorePanel.dislayHeight);
 
         let currentScoreX = globalOptions.menuAssets.scoreNumbers.current.x;
 
-        for(let i = 0; i < scoreArr.length; i++){
+        for (let i = 0; i < scoreArr.length; i++) {
             let number = scoreArr[i];
             this.context.drawImage(
                 scoreObj.img,
@@ -113,12 +113,12 @@ export default class DrawEngine {
                 globalOptions.menuAssets.scoreNumbers.current.width,
                 globalOptions.menuAssets.scoreNumbers.current.height,);
 
-                currentScoreX += globalOptions.menuAssets.scoreNumbers.current.width;
+            currentScoreX += globalOptions.menuAssets.scoreNumbers.current.width;
         }
 
         let maxScoreX = globalOptions.menuAssets.scoreNumbers.max.x;
 
-        for(let i = 0; i < maxScoreArr.length; i++){
+        for (let i = 0; i < maxScoreArr.length; i++) {
             let number = maxScoreArr[i];
             this.context.drawImage(
                 scoreObj.img,
@@ -131,18 +131,18 @@ export default class DrawEngine {
                 globalOptions.menuAssets.scoreNumbers.max.width,
                 globalOptions.menuAssets.scoreNumbers.max.height,);
 
-                maxScoreX += globalOptions.menuAssets.scoreNumbers.max.width;
+            maxScoreX += globalOptions.menuAssets.scoreNumbers.max.width;
         }
     }
 
     drawButton(image, buttonType, canvas) {
         this.context.drawImage(
-            image, 
-            buttonType.x,  
-            buttonType.y, 
-            buttonType.width, 
+            image,
+            buttonType.x,
+            buttonType.y,
+            buttonType.width,
             buttonType.height,
-            (canvas.width / 2) - (buttonType.dislayWidth / 2), 
+            (canvas.width / 2) - (buttonType.dislayWidth / 2),
             (canvas.height / 2) - (buttonType.displayheight / 2),
             buttonType.dislayWidth,
             buttonType.displayheight);

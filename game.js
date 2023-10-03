@@ -42,7 +42,7 @@ export default class Game {
             this.render();
         })
     }
-    
+
     render(timeStamp) {
         if (!isNaN(timeStamp) && Math.floor((timeStamp / 180) % 4) !== this.time) {
             this.time = Math.floor((timeStamp / 180) % 4);
@@ -59,7 +59,7 @@ export default class Game {
         this.drawEngine.drawColumns(this.columnsArray, this.columns.img);
         this.checkCollision();
 
-        if(!this.isLost && this.checkFishPassed()){
+        if (!this.isLost && this.checkFishPassed()) {
             this.score.scoreIncrease();
             this.sounds.scoreGained.play();
         };
@@ -71,12 +71,12 @@ export default class Game {
 
         this.request = window.requestAnimationFrame(this.render.bind(this));
 
-        if(this.isLost) {
+        if (this.isLost) {
             this.sounds.impactSound.play();
             this.sounds.gameTheme.pause();
             window.cancelAnimationFrame(this.request);
             this.drawEngine.drawButton(this.score.img, globalOptions.menuAssets.restartButton, this.canvas);
-            this.canvas.addEventListener('mousedown',  this.resetGameListener)
+            this.canvas.addEventListener('mousedown', this.resetGameListener)
         }
     }
 
@@ -101,11 +101,11 @@ export default class Game {
         const fishLeft = globalOptions.fish.x;
         const fishRight = globalOptions.fish.x + globalOptions.fish.width;
 
-        if((this.fish.y + globalOptions.fish.height) >= this.canvas.height){
+        if ((this.fish.y + globalOptions.fish.height) >= this.canvas.height) {
             this.isLost = true;
         }
-        
-        for(let i = 0; i < this.columnsArray.length; i++){
+
+        for (let i = 0; i < this.columnsArray.length; i++) {
             const columnLeft = this.columnsArray[i].x;
             const columnRight = this.columnsArray[i].x + globalOptions.columns.width;
             const topColumnTop = 0;
@@ -113,16 +113,16 @@ export default class Game {
             const bottomColumnTop = globalOptions.canvas.height - this.columnsArray[i].bottomColdHeight;
             const bottomColumnBottom = globalOptions.canvas.height;
 
-            if(fishRight > columnLeft && 
-                fishLeft < columnRight && 
-                fishTop < topColumnBottom && 
+            if (fishRight > columnLeft &&
+                fishLeft < columnRight &&
+                fishTop < topColumnBottom &&
                 fishBottom > topColumnTop) {
                 this.isLost = true;
             }
 
-            if(fishRight > columnLeft && 
-                fishLeft < columnRight && 
-                fishTop < bottomColumnBottom && 
+            if (fishRight > columnLeft &&
+                fishLeft < columnRight &&
+                fishTop < bottomColumnBottom &&
                 fishBottom > bottomColumnTop) {
                 this.isLost = true;
             }
@@ -132,12 +132,12 @@ export default class Game {
     checkFishPassed() {
         const fishRight = globalOptions.fish.x + globalOptions.fish.width;
         let result = false;
-        for(let i = 0; i < this.columnsArray.length; i++){
-    
+        for (let i = 0; i < this.columnsArray.length; i++) {
+
             if (!this.columnsArray[i].passed) {
-                if(fishRight > this.columnsArray[i].x) {
+                if (fishRight > this.columnsArray[i].x) {
                     const columnMiddle = this.columnsArray[i].x + (globalOptions.columns.width / 2);
-                    if(fishRight > columnMiddle) {
+                    if (fishRight > columnMiddle) {
                         this.columnsArray[i].passed = true;
                         result = true;
                     }
@@ -152,7 +152,7 @@ export default class Game {
     }
 
     loadGameAssets() {
-        const backgroundPromise = globalOptions.loadImgAsset(globalOptions.background.src); 
+        const backgroundPromise = globalOptions.loadImgAsset(globalOptions.background.src);
         const fishPromise = globalOptions.loadImgAsset(globalOptions.fish.src);
         const columnsPromise = globalOptions.loadImgAsset(globalOptions.columns.src);
         const menuPromise = globalOptions.loadImgAsset(globalOptions.menuAssets.src);
@@ -173,13 +173,13 @@ export default class Game {
     }
 
     increaseGameDifficulty() {
-        if(this.score.score === 10) {
+        if (this.score.score === 10) {
             this.speed += .5;
         }
-        if(this.score.score === 20) {
+        if (this.score.score === 20) {
             this.speed += .5;
         }
-        if(this.score.score === 50) {
+        if (this.score.score === 50) {
             this.speed += .5;
         }
     }

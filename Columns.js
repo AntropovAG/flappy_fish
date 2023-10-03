@@ -14,7 +14,7 @@ export default class Columns {
         if ((Date.now() - this.startTime) > this.columnCreationPeriod) {
             let topColumndHeight = Math.random() * (globalOptions.canvas.height - globalOptions.canvasFreeSpaceHeight);
             let topColumnSHeight = topColumndHeight / globalOptions.columns.aspectRatio;
-            
+
             let bottomColumndHeight = (globalOptions.canvas.height - globalOptions.canvasFreeSpaceHeight) - topColumndHeight;
             let bottomColumnSHeight = bottomColumndHeight / globalOptions.columns.aspectRatio;
 
@@ -33,11 +33,11 @@ export default class Columns {
         }
 
     }
-    
+
     moveColumns() {
-        for (let i = this.columns.length - 1; i >= 0; i--){
-            this.columns[i].x -= (globalOptions.columns.width * 4)/145;
-            if((this.columns[i].x + globalOptions.columns.width) < 0) {
+        for (let i = this.columns.length - 1; i >= 0; i--) {
+            this.columns[i].x -= (globalOptions.columns.width * 4) / 145;
+            if ((this.columns[i].x + globalOptions.columns.width) < 0) {
                 this.columns.shift();
             }
         }

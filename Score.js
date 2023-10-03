@@ -1,5 +1,3 @@
-import { globalOptions } from "./Options.js";
-
 export default class Score {
     constructor(storedScore, context) {
         this.maxScore = storedScore;
