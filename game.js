@@ -62,9 +62,10 @@ export default class Game {
         if (!this.isLost && this.checkFishPassed()) {
             this.score.scoreIncrease();
             this.sounds.scoreGained.play();
+            this.increaseGameDifficulty();
         };
 
-        this.increaseGameDifficulty();
+        
         this.drawEngine.displayScore(this.score);
 
         if (this.columnsArray.length > 0) this.columns.moveColumns();
@@ -174,13 +175,13 @@ export default class Game {
 
     increaseGameDifficulty() {
         if (this.score.score === 10) {
-            this.speed += .5;
+            this.columns.columnCreationPeriod -= 100;
         }
         if (this.score.score === 20) {
-            this.speed += .5;
+            this.columns.columnCreationPeriod -= 100;
         }
         if (this.score.score === 50) {
-            this.speed += .5;
+            this.columns.columnCreationPeriod -= 100;
         }
     }
 

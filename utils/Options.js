@@ -26,8 +26,6 @@ export default class Options {
 
         this.canvasFreeSpaceHeight = this.canvas.height * 1 / 4;
         this.speedIndex = 2;
-        this.drownSpeed = 2;
-
 
         this.fish = {
             src: './assets/whale.png',

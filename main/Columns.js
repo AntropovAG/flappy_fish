@@ -4,7 +4,6 @@ export default class Columns {
     constructor() {
         this.x = 0;
         this.width = globalOptions.columns.width;
-        this.speed = globalOptions.columns.speed
         this.columns = [];
         this.startTime = Date.now();
         this.columnCreationPeriod = 1000;
