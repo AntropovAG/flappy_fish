@@ -19,14 +19,14 @@ export default class DrawLogic {
 
     drawBackground() {
         this.context.drawImage(
-            this.background.Img, 
+            this.background.img, 
             this.backgroundX + globalOptions.background.imgScaleWidth, 
             0, 
             globalOptions.background.imgScaleWidth, 
             globalOptions.background.imgScaleHeight);
 
         this.context.drawImage(
-            this.background.Img, 
+            this.background.img, 
             this.backgroundX,
             0, 
             globalOptions.background.imgScaleWidth, 

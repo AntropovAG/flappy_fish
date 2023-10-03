@@ -1,13 +1,7 @@
 import { globalOptions } from "./Options.js";
 
 export default class Background {
-    constructor() {
-        this.Img = new Image();
-    }
-
-    loadBackground() {
-        this.Img.src = globalOptions.background.src;
-    }
+    constructor() {}
 
     setScaleFactors() {
         globalOptions.background.imgScaleFactor = globalOptions.background.imgheight / globalOptions.canvas.height;

@@ -3,7 +3,6 @@ import { globalOptions } from "./Options.js";
 export default class Fish {
     constructor(context) {
         this.y = globalOptions.fish.y;
-        this.img = new Image();
         this.SweemUpDuration = 200;
         this.sweemUpHeight = globalOptions.fish.sweemUpHeight;
         this.fallingStartTime = Date.now();
@@ -14,10 +13,6 @@ export default class Fish {
         this.context = context;
         this.rotationAngle = 0;
         this.rotationSpeed = 45 / this.SweemUpDuration;
-    }
-
-    loadFish() {
-        this.img.src = globalOptions.fish.src;
     }
 
     move() {

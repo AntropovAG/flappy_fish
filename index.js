@@ -2,12 +2,10 @@ import Game from "./game.js"
 import { globalOptions } from "./Options.js";
 
 const canvas = document.getElementById("canvas");
-// canvas.width = globalOptions.canvas.width;
-// canvas.height = globalOptions.canvas.height;
 const visibleScreenWidth = document.documentElement.clientWidth;
-canvas.width = visibleScreenWidth - 200;
-canvas.height = visibleScreenWidth / 2;
-globalOptions.initialize(visibleScreenWidth - 200, visibleScreenWidth / 2);
+globalOptions.initialize(visibleScreenWidth - 200, visibleScreenWidth / 2.5);
+canvas.width = globalOptions.canvas.width;
+canvas.height = globalOptions.canvas.height;
 
 const game = new Game(canvas);
 

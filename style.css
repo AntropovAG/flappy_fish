@@ -7,14 +7,15 @@
     background-image: url('./assets/image.jpg');
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
     font-size: 10px;
 }
 
 .main__header {
-    font-size: 3em;
+    font-size: 4em;
     font-weight: 600;
-    color: black;
+    background: -webkit-linear-gradient(0deg, rgba(195,34,34,0.6839110644257703) 9%, rgba(68,52,193,1) 49%, rgba(253,45,87,1) 98%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     margin: 0;
     padding: 50px 0;
 }

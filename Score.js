@@ -5,11 +5,6 @@ export default class Score {
         this.maxScore = storedScore;
         this.context = context;
         this.score = 0;
-        this.image = new Image();
-    }
-
-    loadScoreAssets() {
-        this.image.src = globalOptions.menuAssets.src;
     }
 
     scoreIncrease() {
@@ -29,7 +24,7 @@ export default class Score {
         }
 
         this.context.drawImage(
-            this.image,
+            this.img,
             globalOptions.menuAssets.scorePanel.x,
             globalOptions.menuAssets.scorePanel.y,
             globalOptions.menuAssets.scorePanel.width,
@@ -38,6 +33,7 @@ export default class Score {
             10,
             globalOptions.canvasFreeSpaceHeight / 1.5, 
             globalOptions.canvasFreeSpaceHeight);
+            
             this.context.fillStyle = 'brown';
             this.context.font = "1.8em bold";
             this.context.textAlign = 'center';

@@ -1,10 +1,28 @@
 export default class Options {
     constructor() {}
 
+    loadImgAsset(src) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = () => reject;
+            img.src = src;
+        })
+    }
+
+    // loadAudioAsset() {
+    //     return new Promise((resolve, reject) => {
+    //         const img = new Image();
+    //         img.onload = () => resolve(img);
+    //         img.onerror = () => reject;
+    //         img.src = src;
+    //     })
+    // }
+
     initialize(canvasWidth, canvasHeight) {
 
     this.canvas = {
-        width: canvasWidth,
+        width: Math.max(canvasWidth, 320),
         height: canvasHeight
     };
 

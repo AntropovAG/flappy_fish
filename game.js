@@ -26,13 +26,15 @@ export default class Game {
         this.resetGame();
         this.isLost = false;
         this.score.score = 0;
-        this.background.loadBackground();
-        this.background.setScaleFactors();
-        this.fish.loadFish();
-        this.columns.loadColumns();
-        this.score.loadScoreAssets();
-        this.fish.drown();
-        this.render();
+        this.loadGameAssets().then(([background, fish, columns, menu]) => {
+            this.background.img = background;
+            this.fish.img = fish;
+            this.columns.img = columns;
+            this.score.img = menu;
+            this.background.setScaleFactors();
+            this.fish.drown();
+            this.render();
+        })
     }
     
     render(timeStamp) {
@@ -65,7 +67,7 @@ export default class Game {
         if(this.isLost) {
             window.cancelAnimationFrame(this.request);
             this.context.drawImage(
-                this.score.image, 
+                this.score.img, 
                 globalOptions.menuAssets.restartButton.x,  
                 globalOptions.menuAssets.restartButton.y, 
                 globalOptions.menuAssets.restartButton.width, 
@@ -93,14 +95,14 @@ export default class Game {
 
     drawBackground() {
         this.context.drawImage(
-            this.background.Img, 
+            this.background.img, 
             this.backgroundX + globalOptions.background.imgScaleWidth, 
             0, 
             globalOptions.background.imgScaleWidth, 
             globalOptions.background.imgScaleHeight);
 
         this.context.drawImage(
-            this.background.Img, 
+            this.background.img, 
             this.backgroundX,
             0, 
             globalOptions.background.imgScaleWidth, 
@@ -221,6 +223,15 @@ export default class Game {
 
     sweemUp() {
         this.fish.sweemUp()
+    }
+
+    loadGameAssets() {
+        const backgroundPromise = globalOptions.loadImgAsset(globalOptions.background.src); 
+        const fishPromise = globalOptions.loadImgAsset(globalOptions.fish.src);
+        const columnsPromise = globalOptions.loadImgAsset(globalOptions.columns.src);
+        const menupromise = globalOptions.loadImgAsset(globalOptions.menuAssets.src);
+        
+        return Promise.all([backgroundPromise, fishPromise, columnsPromise, menupromise])
     }
 
     createLoadScreen() {
