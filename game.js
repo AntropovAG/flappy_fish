@@ -1,11 +1,11 @@
-import Background from "./Background.js";
-import Fish from "./Fish.js";
-import { globalOptions } from "./Options.js";
-import Columns from "./Columns.js";
-import Score from "./Score.js";
-import DrawEngine from "./DrawEngine.js";
-import PhysEngine from "./PhysEngine.js";
-import Sounds from "./Sounds.js";
+import Background from "./main/Background.js";
+import Fish from "./main/Fish.js";
+import { globalOptions } from "./utils/Options.js";
+import Columns from "./main/Columns.js";
+import Score from "./main/Score.js";
+import DrawEngine from "./engines/DrawEngine.js";
+import PhysEngine from "./engines/PhysEngine.js";
+import Sounds from "./utils/Sounds.js";
 
 export default class Game {
     constructor(canvas) {

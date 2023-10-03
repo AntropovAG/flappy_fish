@@ -1,5 +1,5 @@
 import Game from "./game.js"
-import { globalOptions } from "./Options.js";
+import { globalOptions } from "./utils/Options.js";
 
 const canvas = document.getElementById("canvas");
 const visibleScreenWidth = document.documentElement.clientWidth;

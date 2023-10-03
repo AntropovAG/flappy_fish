@@ -5,7 +5,7 @@
     min-width: 320px;
     margin: 0 auto;
     align-items: center;
-    background-image: url('./assets/image.jpg');
+    background-image: url('../assets/wallpaper.jpg');
     background-position: center;
     background-repeat: no-repeat;
 }

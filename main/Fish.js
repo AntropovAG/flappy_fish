@@ -1,4 +1,4 @@
-import { globalOptions } from "./Options.js";
+import { globalOptions } from "../utils/Options.js";
 
 export default class Fish {
     constructor() {

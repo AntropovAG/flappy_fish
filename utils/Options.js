@@ -20,7 +20,7 @@ export default class Options {
     initialize(canvasWidth, canvasHeight) {
 
         this.canvas = {
-            width: Math.max(canvasWidth, 320),
+            width: Math.max(canvasWidth, 360),
             height: Math.max(canvasHeight, 400)
         };
 
