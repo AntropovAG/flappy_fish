@@ -12,7 +12,6 @@ const game = new Game(canvas);
 game.createLoadScreen();
 
 const startGame = () => {
-    console.log('startGame_from_index');
     canvas.removeEventListener('mousedown', startGame)
     game.gameStart();
 }

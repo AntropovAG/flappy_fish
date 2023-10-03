@@ -23,7 +23,7 @@ export default class Options {
 
     this.canvas = {
         width: Math.max(canvasWidth, 320),
-        height: canvasHeight
+        height: Math.max(canvasHeight, 400)
     };
 
     this.canvasFreeSpaceHeight = this.canvas.height * 1/4;
@@ -33,8 +33,8 @@ export default class Options {
 
     this.fish = {
         src: './assets/whale.png',
-        x: 100,
-        y: 160,
+        x: this.canvas.width / 6,
+        y: this.canvas.height / 2,
         width: (this.canvasFreeSpaceHeight / 5) * 2,
         height: this.canvasFreeSpaceHeight / 5,
         sweemUpHeight: this.canvasFreeSpaceHeight / 2,
@@ -100,18 +100,105 @@ export default class Options {
             x: 160,
             y: 18,
             width: 995,
-            height: 1534
+            height: 1534,
+            dislayWidth: this.canvasFreeSpaceHeight / 1.5,
+            dislayHeight: this.canvasFreeSpaceHeight
+        },
+        scoreNumbers: {
+            current: {
+                x: (this.canvasFreeSpaceHeight / 1.5) / 2,
+                y: this.canvasFreeSpaceHeight / 2.5,
+                width: (this.canvasFreeSpaceHeight / 6) / 2,
+                height: this.canvasFreeSpaceHeight / 10,
+            },
+            max: {
+                x: (this.canvasFreeSpaceHeight / 1.5) / 2,
+                y: this.canvasFreeSpaceHeight / 1.5,
+                width: (this.canvasFreeSpaceHeight / 6) / 2,
+                height: this.canvasFreeSpaceHeight / 10,
+            }
+        },
+        startButton: {
+            x: 1166,
+            y: 936,
+            width: 1188,
+            height: 577,
+            dislayWidth: this.canvas.width / 4,
+            displayheight: this.canvasFreeSpaceHeight,
         },
         restartButton: {
-            x: 1160,
+            x: 1166,
             y: 316,
             width: 1188,
-            height: 577
+            height: 577,
+            dislayWidth: this.canvas.width / 4,
+            displayheight: this.canvasFreeSpaceHeight,
         }
     }
 
+    this.numbers = [
+        {
+            sx: 2203,
+            sy: 123,
+            sWidth: 108,
+            sheight: 163,
+        },
+        {
+            sx: 1196,
+            sy: 123,
+            sWidth: 97,
+            sheight: 163,
+        },
+        {
+            sx: 1306,
+            sy: 123,
+            sWidth: 100,
+            sheight: 163,
+        },
+        {
+            sx: 1420,
+            sy: 123,
+            sWidth: 101,
+            sheight: 163,
+        },
+        {
+            sx: 1530,
+            sy: 123,
+            sWidth: 109,
+            sheight: 163,
+        },
+        {
+            sx: 1646,
+            sy: 123,
+            sWidth: 95,
+            sheight: 163,
+        },
+        {
+            sx: 1756,
+            sy: 123,
+            sWidth: 104,
+            sheight: 163,
+        },
+        {
+            sx: 1865,
+            sy: 123,
+            sWidth: 110,
+            sheight: 163,
+        },
+        {
+            sx: 1981,
+            sy: 123,
+            sWidth: 109,
+            sheight: 163,
+        },
+        {
+            sx: 2092,
+            sy: 123,
+            sWidth: 110,
+            sheight: 163,
+        },0                                                                                                                                                                                                                                                                                                                                                                                                                                          
+    ]
 }
-
 }
 
 let globalOptions = new Options()

@@ -56,7 +56,6 @@ export default class Game {
         this.checkCollision();
         if(!this.isLost && this.checkFishPassed()){
             this.score.scoreIncrease();
-            console.log(this.score.score)
         };
         this.score.displayScore();
 
@@ -72,10 +71,10 @@ export default class Game {
                 globalOptions.menuAssets.restartButton.y, 
                 globalOptions.menuAssets.restartButton.width, 
                 globalOptions.menuAssets.restartButton.height,
-                (this.canvas.width / 2) - 100, 
-                (this.canvas.height / 2) - 50,
-                200,
-                100);
+                (this.canvas.width / 2) - (globalOptions.menuAssets.restartButton.dislayWidth / 2), 
+                (this.canvas.height / 2) - (globalOptions.menuAssets.restartButton.displayheight / 2),
+                globalOptions.menuAssets.restartButton.dislayWidth,
+                globalOptions.menuAssets.restartButton.displayheight);
             this.canvas.addEventListener('mousedown',  this.resetGameListener)
         }
     }
@@ -241,16 +240,15 @@ export default class Game {
         startButtonImage.onload = () => {
             this.context.drawImage(
                 startButtonImage, 
-                globalOptions.menuAssets.restartButton.x,  
-                globalOptions.menuAssets.restartButton.y, 
-                globalOptions.menuAssets.restartButton.width, 
-                globalOptions.menuAssets.restartButton.height,
-                (this.canvas.width / 2) - 100, 
-                (this.canvas.height / 2) - 50,
-                200,
-                100)};
+                globalOptions.menuAssets.startButton.x,  
+                globalOptions.menuAssets.startButton.y, 
+                globalOptions.menuAssets.startButton.width, 
+                globalOptions.menuAssets.startButton.height,
+                (this.canvas.width / 2) - (globalOptions.menuAssets.startButton.dislayWidth / 2), 
+                (this.canvas.height / 2) - (globalOptions.menuAssets.startButton.displayheight / 2),
+                globalOptions.menuAssets.startButton.dislayWidth,
+                globalOptions.menuAssets.startButton.displayheight)};
     }
-
 
     clear() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
