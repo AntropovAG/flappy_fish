@@ -14,31 +14,6 @@ export default class Fish {
         this.rotationSpeed = 45 / this.SweemUpDuration;
     }
 
-    move() {
-        let deltaDown = this.FallingAcceleration * Math.pow((Date.now() - this.fallingStartTime) / this.quantizer, this.sqr);
-        this.y += deltaDown;
-        this.rotationAngle += (this.rotationSpeed * deltaDown) * 2;
-        if(this.rotationAngle > 45) {
-            this.rotationAngle = 45;
-        }
-        if (!this.falling) {
-            if(Date.now() > this.sweemUpEndTime) {
-                this.drown();
-                return
-            }
-            let deltaUp = (Date.now() - this.sweemUpTime) * (this.sweemUpHeight / this.SweemUpDuration);
-            this.sweemUpTime = Date.now();
-            this.y -= deltaUp;
-            this.rotationAngle -= (this.rotationSpeed * deltaUp) * 2;
-            if(this.rotationAngle < -45) {
-                this.rotationAngle = -45;
-            }
-        }
-        if(this.y < 0) {
-            this.y = 0;
-        }
-    }
-
     drown() {
         this.falling = true;
     }

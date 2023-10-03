@@ -3,16 +3,18 @@ import Fish from "./Fish.js";
 import { globalOptions } from "./Options.js";
 import Columns from "./Columns.js";
 import Score from "./Score.js";
-import DrawLogic from "./DrawLogic.js";
+import DrawEngine from "./DrawEngine.js";
+import PhysEngine from "./PhysEngine.js";
 import Sounds from "./Sounds.js";
 
 export default class Game {
     constructor(canvas) {
         this.canvas = canvas;
         this.context = canvas.getContext("2d");
-        this.drawLogic = new DrawLogic();
+        this.drawEngine = new DrawEngine(this.context);
         this.frameId = 0;
         this.storedScore = localStorage.getItem('max_score') ? localStorage.getItem('max_score') : 0;
+        this.score = new Score(this.storedScore, this.context);
         this.index = 0;
         this.speed = globalOptions.speedIndex;
         this.y = 0;
@@ -25,7 +27,6 @@ export default class Game {
     gameStart() {
         this.resetGame();
         this.isLost = false;
-        this.score.score = 0;
         this.speed = globalOptions.speedIndex;
         this.loadGameAssets().then(([background, fish, columns, menu, impactSound, scoreGainedSound, gameTheme]) => {
             this.background.img = background;
@@ -47,26 +48,24 @@ export default class Game {
             this.time = Math.floor((timeStamp / 180) % 4);
             this.frameId = this.time
         }
-        
         this.timeStamp = timeStamp;
-
         this.index += .3;
         this.backgroundX = -((this.index * this.speed) % globalOptions.background.imgScaleWidth);
         this.clear();
-        this.drawBackground()
-        this.fish.move();
-        this.drawFish();
+        this.drawEngine.drawBackground(this.background.img, this.backgroundX);
+        this.physEngine.moveFish(this.fish);
+        this.drawEngine.drawFish(this.fish, this.frameId);
         this.columns.createColumns();
-        this.drawColumns();
+        this.drawEngine.drawColumns(this.columnsArray, this.columns.img);
         this.checkCollision();
+
         if(!this.isLost && this.checkFishPassed()){
             this.score.scoreIncrease();
             this.sounds.scoreGained.play();
         };
 
         this.gameDifficultyUp();
-
-        this.score.displayScore();
+        this.drawEngine.displayScore(this.score);
 
         if (this.columnsArray.length > 0) this.columns.moveColumns();
 
@@ -76,16 +75,7 @@ export default class Game {
             this.sounds.impactSound.play();
             this.sounds.gameTheme.pause();
             window.cancelAnimationFrame(this.request);
-            this.context.drawImage(
-                this.score.img, 
-                globalOptions.menuAssets.restartButton.x,  
-                globalOptions.menuAssets.restartButton.y, 
-                globalOptions.menuAssets.restartButton.width, 
-                globalOptions.menuAssets.restartButton.height,
-                (this.canvas.width / 2) - (globalOptions.menuAssets.restartButton.dislayWidth / 2), 
-                (this.canvas.height / 2) - (globalOptions.menuAssets.restartButton.displayheight / 2),
-                globalOptions.menuAssets.restartButton.dislayWidth,
-                globalOptions.menuAssets.restartButton.displayheight);
+            this.drawEngine.drawButton(this.score.img, globalOptions.menuAssets.restartButton, this.canvas);
             this.canvas.addEventListener('mousedown',  this.resetGameListener)
         }
     }
@@ -97,88 +87,12 @@ export default class Game {
 
     resetGame() {
         this.fish = new Fish();
+        this.physEngine = new PhysEngine();
         this.columns = new Columns();
         this.background = new Background();
-        this.storedScore = localStorage.getItem('max_score') ? localStorage.getItem('max_score') : 0;
-        this.score = new Score(this.storedScore, this.context);
+        this.score.resetScore();
         this.sounds = new Sounds();
         this.columnsArray = this.columns.columns;
-    }
-
-    drawBackground() {
-        this.context.drawImage(
-            this.background.img, 
-            this.backgroundX + globalOptions.background.imgScaleWidth, 
-            0, 
-            globalOptions.background.imgScaleWidth, 
-            globalOptions.background.imgScaleHeight);
-
-        this.context.drawImage(
-            this.background.img, 
-            this.backgroundX,
-            0, 
-            globalOptions.background.imgScaleWidth, 
-            globalOptions.background.imgScaleHeight);
-    }
-
-    drawFish() {
-        if(this.fish.falling) {
-            this.context.save();
-            this.context.translate(globalOptions.fish.x + globalOptions.fish.width / 2, this.fish.y + globalOptions.fish.height / 2);
-            this.context.rotate(this.fish.rotationAngle * Math.PI / 360);
-            this.context.drawImage(
-                this.fish.img, 
-                globalOptions.fish.frames[this.frameId].x, 
-                globalOptions.fish.frames[this.frameId].y, 
-                globalOptions.fish.frames[this.frameId].width, 
-                globalOptions.fish.frames[this.frameId].height,
-                -(globalOptions.fish.width / 2),
-                -(globalOptions.fish.height / 2),
-                globalOptions.fish.width, 
-                globalOptions.fish.height)
-            this.context.restore();
-        } else {
-            this.context.save();
-            this.context.translate(globalOptions.fish.x + globalOptions.fish.width / 2, this.fish.y + globalOptions.fish.height / 2);
-            this.context.rotate(this.fish.rotationAngle * Math.PI / 360);
-            this.context.drawImage(
-                this.fish.img,   
-                globalOptions.fish.frames[this.frameId].x, 
-                globalOptions.fish.frames[this.frameId].y, 
-                globalOptions.fish.frames[this.frameId].width, 
-                globalOptions.fish.frames[this.frameId].height, 
-                -(globalOptions.fish.width  / 2),
-                -(globalOptions.fish.height / 2),
-                globalOptions.fish.width, 
-                globalOptions.fish.height)
-            this.context.restore();
-        }
-        
-    }
-
-    drawColumns() {
-            for (let i=0; i < this.columnsArray.length; i++){
-
-                this.context.drawImage(this.columns.img, 
-                    globalOptions.columns.topColumn.x,
-                    this.columnsArray[i].topColsy,
-                    globalOptions.columns.topColumn.width,
-                    this.columnsArray[i].topColsHeight, 
-                    this.columnsArray[i].x,
-                    0,
-                    globalOptions.columns.width,
-                    this.columnsArray[i].topColdHeight)
-
-                this.context.drawImage(this.columns.img, 
-                    globalOptions.columns.bottomColumn.x,
-                    this.columnsArray[i].bottomColsy,
-                    globalOptions.columns.bottomColumn.width,
-                    this.columnsArray[i].bottomColsHeight,
-                    this.columnsArray[i].x,
-                    this.canvas.height - this.columnsArray[i].bottomColdHeight,
-                    globalOptions.columns.width,
-                    this.columnsArray[i].bottomColdHeight);
-        }
     }
 
     checkCollision() {
@@ -254,16 +168,8 @@ export default class Game {
         startButtonImage.src = globalOptions.menuAssets.src;
 
         startButtonImage.onload = () => {
-            this.context.drawImage(
-                startButtonImage, 
-                globalOptions.menuAssets.startButton.x,  
-                globalOptions.menuAssets.startButton.y, 
-                globalOptions.menuAssets.startButton.width, 
-                globalOptions.menuAssets.startButton.height,
-                (this.canvas.width / 2) - (globalOptions.menuAssets.startButton.dislayWidth / 2), 
-                (this.canvas.height / 2) - (globalOptions.menuAssets.startButton.displayheight / 2),
-                globalOptions.menuAssets.startButton.dislayWidth,
-                globalOptions.menuAssets.startButton.displayheight)};
+            this.drawEngine.drawButton(startButtonImage, globalOptions.menuAssets.startButton, this.canvas);
+        }
     }
 
     gameDifficultyUp() {

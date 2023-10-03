@@ -1,49 +1,39 @@
-import Background from "./Background.js";
-import Fish from "./Fish.js";
 import { globalOptions } from "./Options.js";
-import Columns from "./Columns.js";
 
-export default class DrawLogic {
-    constructor() {
-        this.fish = new Fish(this.context);
-        this.columns = new Columns();
-        this.frameId = 0;
-        this.background = new Background('./assets/background.png');
+export default class DrawEngine {
+    constructor(context) {
+        this.context = context;
         this.index = 0;
-        this.speed = globalOptions.speedIndex;
-        this.y = 0;
         this.timeStamp = 0;
-        this.request;
-        this.columnsArray = this.columns.columns;
     }
 
-    drawBackground() {
+    drawBackground(image, backgroundX) {
         this.context.drawImage(
-            this.background.img, 
-            this.backgroundX + globalOptions.background.imgScaleWidth, 
+            image, 
+            backgroundX + globalOptions.background.imgScaleWidth, 
             0, 
             globalOptions.background.imgScaleWidth, 
             globalOptions.background.imgScaleHeight);
 
         this.context.drawImage(
-            this.background.img, 
-            this.backgroundX,
+            image, 
+            backgroundX,
             0, 
             globalOptions.background.imgScaleWidth, 
             globalOptions.background.imgScaleHeight);
     }
 
-    drawFish() {
-        if(this.fish.falling) {
+    drawFish(fish, frameId) {
+        if(fish.falling) {
             this.context.save();
-            this.context.translate(globalOptions.fish.x + globalOptions.fish.width / 2, this.fish.y + globalOptions.fish.height / 2);
-            this.context.rotate(this.fish.rotationAngle * Math.PI / 360);
+            this.context.translate(globalOptions.fish.x + globalOptions.fish.width / 2, fish.y + globalOptions.fish.height / 2);
+            this.context.rotate(fish.rotationAngle * Math.PI / 360);
             this.context.drawImage(
-                this.fish.img, 
-                globalOptions.fish.frames[this.frameId].x, 
-                globalOptions.fish.frames[this.frameId].y, 
-                globalOptions.fish.frames[this.frameId].width, 
-                globalOptions.fish.frames[this.frameId].height,
+                fish.img, 
+                globalOptions.fish.frames[frameId].x, 
+                globalOptions.fish.frames[frameId].y, 
+                globalOptions.fish.frames[frameId].width, 
+                globalOptions.fish.frames[frameId].height,
                 -(globalOptions.fish.width / 2),
                 -(globalOptions.fish.height / 2),
                 globalOptions.fish.width, 
@@ -51,14 +41,14 @@ export default class DrawLogic {
             this.context.restore();
         } else {
             this.context.save();
-            this.context.translate(globalOptions.fish.x + globalOptions.fish.width / 2, this.fish.y + globalOptions.fish.height / 2);
-            this.context.rotate(this.fish.rotationAngle * Math.PI / 360);
+            this.context.translate(globalOptions.fish.x + globalOptions.fish.width / 2, fish.y + globalOptions.fish.height / 2);
+            this.context.rotate(fish.rotationAngle * Math.PI / 360);
             this.context.drawImage(
-                this.fish.img,   
-                globalOptions.fish.frames[this.frameId].x, 
-                globalOptions.fish.frames[this.frameId].y, 
-                globalOptions.fish.frames[this.frameId].width, 
-                globalOptions.fish.frames[this.frameId].height, 
+                fish.img,   
+                globalOptions.fish.frames[frameId].x, 
+                globalOptions.fish.frames[frameId].y, 
+                globalOptions.fish.frames[frameId].width, 
+                globalOptions.fish.frames[frameId].height, 
                 -(globalOptions.fish.width  / 2),
                 -(globalOptions.fish.height / 2),
                 globalOptions.fish.width, 
@@ -68,39 +58,37 @@ export default class DrawLogic {
         
     }
 
-    drawColumns() {
-            for (let i=0; i < this.columnsArray.length; i++){
+    drawColumns(columnsArray, image) {
+            for (let i=0; i < columnsArray.length; i++){
 
-                this.context.drawImage(this.columns.img, 
+                this.context.drawImage(image, 
                     globalOptions.columns.topColumn.x,
-                    this.columnsArray[i].topColsy,
+                    columnsArray[i].topColsy,
                     globalOptions.columns.topColumn.width,
-                    this.columnsArray[i].topColsHeight, 
-                    this.columnsArray[i].x,
+                    columnsArray[i].topColsHeight, 
+                    columnsArray[i].x,
                     0,
                     globalOptions.columns.width,
-                    this.columnsArray[i].topColdHeight)
+                    columnsArray[i].topColdHeight)
 
-                this.context.drawImage(this.columns.img, 
+                this.context.drawImage(image, 
                     globalOptions.columns.bottomColumn.x,
-                    this.columnsArray[i].bottomColsy,
+                    columnsArray[i].bottomColsy,
                     globalOptions.columns.bottomColumn.width,
-                    this.columnsArray[i].bottomColsHeight,
-                    this.columnsArray[i].x,
-                    this.canvas.height - this.columnsArray[i].bottomColdHeight,
+                    columnsArray[i].bottomColsHeight,
+                    columnsArray[i].x,
+                    globalOptions.canvas.height - columnsArray[i].bottomColdHeight,
                     globalOptions.columns.width,
-                    this.columnsArray[i].bottomColdHeight);
+                    columnsArray[i].bottomColdHeight);
         }
     }
 
-    displayScore() {
-        if (this.score > this.maxScore) {
-            this.maxScore = this.score;
-            this.maxScoreArr = this.maxScore.toString().split('');
-        }
+    displayScore(scoreObj) {
+        const scoreArr = scoreObj.score.toString().split('');
+        const maxScoreArr = scoreObj.maxScore.toString().split('');
 
         this.context.drawImage(
-            this.img,
+            scoreObj.img,
             globalOptions.menuAssets.scorePanel.x,
             globalOptions.menuAssets.scorePanel.y,
             globalOptions.menuAssets.scorePanel.width,
@@ -112,10 +100,10 @@ export default class DrawLogic {
 
         let currentScoreX = globalOptions.menuAssets.scoreNumbers.current.x;
 
-        for(let i = 0; i < this.scoreArr.length; i++){
-            let number = this.scoreArr[i];
+        for(let i = 0; i < scoreArr.length; i++){
+            let number = scoreArr[i];
             this.context.drawImage(
-                this.img,
+                scoreObj.img,
                 globalOptions.numbers[number].sx,
                 globalOptions.numbers[number].sy,
                 globalOptions.numbers[number].sWidth,
@@ -130,10 +118,10 @@ export default class DrawLogic {
 
         let maxScoreX = globalOptions.menuAssets.scoreNumbers.max.x;
 
-        for(let i = 0; i < this.maxScoreArr.length; i++){
-            let number = this.maxScoreArr[i];
+        for(let i = 0; i < maxScoreArr.length; i++){
+            let number = maxScoreArr[i];
             this.context.drawImage(
-                this.img,
+                scoreObj.img,
                 globalOptions.numbers[number].sx,
                 globalOptions.numbers[number].sy,
                 globalOptions.numbers[number].sWidth,
@@ -145,6 +133,19 @@ export default class DrawLogic {
 
                 maxScoreX += globalOptions.menuAssets.scoreNumbers.max.width;
         }
+    }
+
+    drawButton(image, buttonType, canvas) {
+        this.context.drawImage(
+            image, 
+            buttonType.x,  
+            buttonType.y, 
+            buttonType.width, 
+            buttonType.height,
+            (canvas.width / 2) - (buttonType.dislayWidth / 2), 
+            (canvas.height / 2) - (buttonType.displayheight / 2),
+            buttonType.dislayWidth,
+            buttonType.displayheight);
     }
 
 }
