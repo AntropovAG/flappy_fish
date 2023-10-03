@@ -3,7 +3,7 @@ import { globalOptions } from "./Options.js";
 
 const canvas = document.getElementById("canvas");
 const visibleScreenWidth = document.documentElement.clientWidth;
-globalOptions.initialize(visibleScreenWidth - 200, visibleScreenWidth / 2.5);
+globalOptions.initialize(visibleScreenWidth, visibleScreenWidth / 2.5);
 canvas.width = globalOptions.canvas.width;
 canvas.height = globalOptions.canvas.height;
 
@@ -22,6 +22,8 @@ document.addEventListener('keydown', (evt) => {
     }
 });
 
-
+canvas.addEventListener('click', () => {
+    game.sweemUp();
+});
 
 canvas.addEventListener('mousedown', startGame);

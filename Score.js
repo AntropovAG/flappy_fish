@@ -73,24 +73,6 @@ export default class Score {
 
                 maxScoreX += globalOptions.menuAssets.scoreNumbers.max.width;
         }
-
-        
-        // this.context.drawImage(
-        //     this.img,
-        //     globalOptions.menuAssets.scorePanel.x,
-        //     globalOptions.menuAssets.scorePanel.y,
-        //     globalOptions.menuAssets.scorePanel.width,
-        //     globalOptions.menuAssets.scorePanel.height,
-        //     10,
-        //     10,
-        //     globalOptions.menuAssets.scorePanel.dislayWidth, 
-        //     globalOptions.menuAssets.scorePanel.dislayHeight);
-            
-        //     this.context.fillStyle = 'brown';
-        //     this.context.font = "2em bold";
-        //     this.context.textAlign = 'center';
-        //     this.context.fillText(this.score, globalOptions.menuAssets.scoreNumbers.current.x,  globalOptions.menuAssets.scoreNumbers.current.y);
-        //     this.context.fillText(this.maxScore,  globalOptions.menuAssets.scoreNumbers.max.x,  globalOptions.menuAssets.scoreNumbers.max.y);
     }
 
 

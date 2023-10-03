@@ -17,7 +17,7 @@ export default class DrawLogic {
         this.columnsArray = this.columns.columns;
     }
 
-    drawBackground() {
+    drawBackground() {bbbbb
         this.context.drawImage(
             this.background.img, 
             this.backgroundX + globalOptions.background.imgScaleWidth, 

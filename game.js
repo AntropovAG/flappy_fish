@@ -4,7 +4,7 @@ import { globalOptions } from "./Options.js";
 import Columns from "./Columns.js";
 import Score from "./Score.js";
 import DrawLogic from "./DrawLogic.js";
-
+import Sounds from "./Sounds.js";
 
 export default class Game {
     constructor(canvas) {
@@ -26,11 +26,16 @@ export default class Game {
         this.resetGame();
         this.isLost = false;
         this.score.score = 0;
-        this.loadGameAssets().then(([background, fish, columns, menu]) => {
+        this.speed = globalOptions.speedIndex;
+        this.loadGameAssets().then(([background, fish, columns, menu, impactSound, scoreGainedSound, gameTheme]) => {
             this.background.img = background;
             this.fish.img = fish;
             this.columns.img = columns;
             this.score.img = menu;
+            this.sounds.impactSound = impactSound;
+            this.sounds.scoreGained = scoreGainedSound;
+            this.sounds.gameTheme = gameTheme;
+            this.sounds.playGameTheme();
             this.background.setScaleFactors();
             this.fish.drown();
             this.render();
@@ -56,7 +61,11 @@ export default class Game {
         this.checkCollision();
         if(!this.isLost && this.checkFishPassed()){
             this.score.scoreIncrease();
+            this.sounds.scoreGained.play();
         };
+
+        this.gameDifficultyUp();
+
         this.score.displayScore();
 
         if (this.columnsArray.length > 0) this.columns.moveColumns();
@@ -64,6 +73,8 @@ export default class Game {
         this.request = window.requestAnimationFrame(this.render.bind(this));
 
         if(this.isLost) {
+            this.sounds.impactSound.play();
+            this.sounds.gameTheme.pause();
             window.cancelAnimationFrame(this.request);
             this.context.drawImage(
                 this.score.img, 
@@ -89,6 +100,7 @@ export default class Game {
         this.columns = new Columns();
         this.background = new Background();
         this.score = new Score(this.storedScore, this.context);
+        this.sounds = new Sounds();
         this.columnsArray = this.columns.columns;
     }
 
@@ -228,9 +240,12 @@ export default class Game {
         const backgroundPromise = globalOptions.loadImgAsset(globalOptions.background.src); 
         const fishPromise = globalOptions.loadImgAsset(globalOptions.fish.src);
         const columnsPromise = globalOptions.loadImgAsset(globalOptions.columns.src);
-        const menupromise = globalOptions.loadImgAsset(globalOptions.menuAssets.src);
-        
-        return Promise.all([backgroundPromise, fishPromise, columnsPromise, menupromise])
+        const menuPromise = globalOptions.loadImgAsset(globalOptions.menuAssets.src);
+        const impactSoundPromise = globalOptions.loadAudioAsset(globalOptions.sounds.impactSound.src);
+        const scoreGainedPromise = globalOptions.loadAudioAsset(globalOptions.sounds.scoreGained.src);
+        const gameThemePromise = globalOptions.loadAudioAsset(globalOptions.sounds.gameTheme.src);
+
+        return Promise.all([backgroundPromise, fishPromise, columnsPromise, menuPromise, impactSoundPromise, scoreGainedPromise, gameThemePromise])
     }
 
     createLoadScreen() {
@@ -248,6 +263,12 @@ export default class Game {
                 (this.canvas.height / 2) - (globalOptions.menuAssets.startButton.displayheight / 2),
                 globalOptions.menuAssets.startButton.dislayWidth,
                 globalOptions.menuAssets.startButton.displayheight)};
+    }
+
+    gameDifficultyUp() {
+        if(this.score.score > 10) {
+            this.speed *= 2;
+        }
     }
 
     clear() {
