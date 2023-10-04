@@ -23,17 +23,21 @@ const startGame = () => {
             game.scoreGained = scoreGainedSound;
             game.gameTheme = gameTheme;
         })
-        .then(() => game.gameStart())
+        .then(() => {
+            game.gameStart();
+            
+            document.addEventListener('keydown', (evt) => {
+                if (evt.key === " " || evt.key === "Spacebar") {
+                    game.sweemUp();
+                }
+            });
+            
+            canvas.addEventListener('click', () => {
+                game.sweemUp();
+            });
+        })
 }
 
-document.addEventListener('keydown', (evt) => {
-    if (evt.key === " " || evt.key === "Spacebar") {
-        game.sweemUp();
-    }
-});
 
-canvas.addEventListener('click', () => {
-    game.sweemUp();
-});
 
 canvas.addEventListener('mousedown', startGame);
