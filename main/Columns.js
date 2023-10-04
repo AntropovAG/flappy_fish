@@ -6,7 +6,7 @@ export default class Columns {
         this.width = globalOptions.columns.width;
         this.columns = [];
         this.startTime = Date.now();
-        this.columnCreationPeriod = 1500;
+        this.columnCreationPeriod = 1000;
     }
 
     createColumns() {
@@ -35,7 +35,7 @@ export default class Columns {
 
     moveColumns() {
         for (let i = this.columns.length - 1; i >= 0; i--) {
-            this.columns[i].x -= (globalOptions.columns.width * 3) / 145;
+            this.columns[i].x -= (globalOptions.columns.width * 4) / globalOptions.fps;
             if ((this.columns[i].x + globalOptions.columns.width) < 0) {
                 this.columns.shift();
             }

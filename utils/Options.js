@@ -19,6 +19,8 @@ export default class Options {
 
     initialize(canvasWidth, canvasHeight) {
 
+        this.fps = 60;
+
         this.canvas = {
             width: Math.max(canvasWidth, 360),
             height: Math.max(canvasHeight, 400)

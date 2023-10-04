@@ -22,6 +22,11 @@ export default class Game {
         this.request;
         this.columnsArray;
         this.resetGameListener = this.newGame.bind(this);
+        this.fps = globalOptions.fps;
+        this.now;
+        this.then = Date.now();
+        this.interval = 1000 / this.fps;
+        this.delta;
     }
 
     gameStart() {
@@ -45,39 +50,46 @@ export default class Game {
     }
 
     render(timeStamp) {
-        if (!isNaN(timeStamp) && Math.floor((timeStamp / 180) % 4) !== this.time) {
-            this.time = Math.floor((timeStamp / 180) % 4);
-            this.frameId = this.time
-        }
-        this.timeStamp = timeStamp;
-        this.index += .3;
-        this.backgroundX = -((this.index * this.speed) % globalOptions.background.imgScaleWidth);
-        this.clear();
-        this.drawEngine.drawBackground(this.backgroundImg, this.backgroundX);
-        this.physEngine.moveFish(this.fish);
-        this.drawEngine.drawFish(this.fish, this.fishImg, this.frameId);
-        this.columns.createColumns();
-        this.drawEngine.drawColumns(this.columnsArray, this.columnsImg);
-        this.checkCollision();
-
-        if (!this.isLost && this.checkFishPassed()) {
-            this.score.scoreIncrease();
-            this.scoreGained.play();
-            this.increaseGameDifficulty();
-        };
-        
-        this.drawEngine.displayScore(this.score, this.scoreImg);
-
-        if (this.columnsArray.length > 0) this.columns.moveColumns();
-
         this.request = window.requestAnimationFrame(this.render.bind(this));
 
-        if (this.isLost) {
-            this.impactSound.play();
-            this.gameTheme.pause();
-            window.cancelAnimationFrame(this.request);
-            this.drawEngine.drawButton(this.scoreImg, globalOptions.menuAssets.restartButton, this.canvas);
-            this.canvas.addEventListener('mousedown', this.resetGameListener)
+        this.now = Date.now();
+        this.delta = this.now - this.then;
+
+        if (this.delta > this.interval) {
+
+            this.then = this.now - (this.delta % this.interval);
+            if (!isNaN(timeStamp) && Math.floor((timeStamp / 180) % 4) !== this.time) {
+                this.time = Math.floor((timeStamp / 180) % 4);
+                this.frameId = this.time
+            }
+            this.timeStamp = timeStamp;
+            this.index += .3;
+            this.backgroundX = -((this.index * this.speed) % globalOptions.background.imgScaleWidth);
+            this.clear();
+            this.drawEngine.drawBackground(this.backgroundImg, this.backgroundX);
+            this.physEngine.moveFish(this.fish);
+            this.drawEngine.drawFish(this.fish, this.fishImg, this.frameId);
+            this.columns.createColumns();
+            this.drawEngine.drawColumns(this.columnsArray, this.columnsImg);
+            this.checkCollision();
+
+            if (!this.isLost && this.checkFishPassed()) {
+                this.score.scoreIncrease();
+                this.scoreGained.play();
+                this.increaseGameDifficulty();
+            };
+
+            this.drawEngine.displayScore(this.score, this.scoreImg);
+
+            if (this.columnsArray.length > 0) this.columns.moveColumns();
+
+            if (this.isLost) {
+                this.impactSound.play();
+                this.gameTheme.pause();
+                window.cancelAnimationFrame(this.request);
+                this.drawEngine.drawButton(this.scoreImg, globalOptions.menuAssets.restartButton, this.canvas);
+                this.canvas.addEventListener('mousedown', this.resetGameListener)
+            }
         }
     }
 
