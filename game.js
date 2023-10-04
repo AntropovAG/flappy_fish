@@ -26,21 +26,11 @@ export default class Game {
 
     gameStart() {
         this.resetGame();
-        this.isLost = false;
-        this.speed = globalOptions.speedIndex;
-        this.loadGameAssets().then(([background, fish, columns, menu, impactSound, scoreGainedSound, gameTheme]) => {
-            this.background.img = background;
-            this.fish.img = fish;
-            this.columns.img = columns;
-            this.score.img = menu;
-            this.sounds.impactSound = impactSound;
-            this.sounds.scoreGained = scoreGainedSound;
-            this.sounds.gameTheme = gameTheme;
-            this.sounds.playGameTheme();
-            this.background.setScaleFactors();
-            this.fish.drown();
-            this.render();
-        })
+        this.score.resetScore();
+        this.sounds.playGameTheme(this.gameTheme);
+        this.background.setScaleFactors();
+        this.fish.drown();
+        this.render();
     }
 
     render(timeStamp) {
@@ -52,31 +42,31 @@ export default class Game {
         this.index += .3;
         this.backgroundX = -((this.index * this.speed) % globalOptions.background.imgScaleWidth);
         this.clear();
-        this.drawEngine.drawBackground(this.background.img, this.backgroundX);
+        this.drawEngine.drawBackground(this.backgroundImg, this.backgroundX);
         this.physEngine.moveFish(this.fish);
-        this.drawEngine.drawFish(this.fish, this.frameId);
+        this.drawEngine.drawFish(this.fish, this.fishImg, this.frameId);
         this.columns.createColumns();
-        this.drawEngine.drawColumns(this.columnsArray, this.columns.img);
+        this.drawEngine.drawColumns(this.columnsArray, this.columnsImg);
         this.checkCollision();
 
         if (!this.isLost && this.checkFishPassed()) {
             this.score.scoreIncrease();
-            this.sounds.scoreGained.play();
+            this.scoreGained.play();
             this.increaseGameDifficulty();
         };
 
         
-        this.drawEngine.displayScore(this.score);
+        this.drawEngine.displayScore(this.score, this.scoreImg);
 
         if (this.columnsArray.length > 0) this.columns.moveColumns();
 
         this.request = window.requestAnimationFrame(this.render.bind(this));
 
         if (this.isLost) {
-            this.sounds.impactSound.play();
-            this.sounds.gameTheme.pause();
+            this.impactSound.play();
+            this.gameTheme.pause();
             window.cancelAnimationFrame(this.request);
-            this.drawEngine.drawButton(this.score.img, globalOptions.menuAssets.restartButton, this.canvas);
+            this.drawEngine.drawButton(this.scoreImg, globalOptions.menuAssets.restartButton, this.canvas);
             this.canvas.addEventListener('mousedown', this.resetGameListener)
         }
     }
@@ -91,9 +81,10 @@ export default class Game {
         this.physEngine = new PhysEngine();
         this.columns = new Columns();
         this.background = new Background();
-        this.score.resetScore();
         this.sounds = new Sounds();
         this.columnsArray = this.columns.columns;
+        this.isLost = false;
+        this.speed = globalOptions.speedIndex;
     }
 
     checkCollision() {

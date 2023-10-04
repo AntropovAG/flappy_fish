@@ -13,7 +13,17 @@ game.createLoadScreen();
 
 const startGame = () => {
     canvas.removeEventListener('mousedown', startGame)
-    game.gameStart();
+    game.loadGameAssets()
+        .then(([background, fish, columns, menu, impactSound, scoreGainedSound, gameTheme]) => {
+            game.backgroundImg = background;
+            game.fishImg = fish;
+            game.columnsImg = columns;
+            game.scoreImg = menu;
+            game.impactSound = impactSound;
+            game.scoreGained = scoreGainedSound;
+            game.gameTheme = gameTheme;
+        })
+        .then(() => game.gameStart())
 }
 
 document.addEventListener('keydown', (evt) => {

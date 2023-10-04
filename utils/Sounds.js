@@ -1,13 +1,10 @@
 export default class Sounds {
-    constructor() {
-        this.impactSound;
-        this.scoreGained;
-        this.gameTheme;
-    }
+    constructor() { }
 
-    playGameTheme() {
-        this.gameTheme.loop = true;
-        this.gameTheme.volume = 0.5;
-        this.gameTheme.play();
+    playGameTheme(gameTheme) {
+        gameTheme.currentTime = 0;
+        gameTheme.loop = true;
+        gameTheme.volume = 0.5;
+        gameTheme.play();
     }
 }

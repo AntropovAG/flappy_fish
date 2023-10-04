@@ -23,13 +23,13 @@ export default class DrawEngine {
             globalOptions.background.imgScaleHeight);
     }
 
-    drawFish(fish, frameId) {
+    drawFish(fish, image, frameId) {
         if (fish.falling) {
             this.context.save();
             this.context.translate(globalOptions.fish.x + globalOptions.fish.width / 2, fish.y + globalOptions.fish.height / 2);
             this.context.rotate(fish.rotationAngle * Math.PI / 360);
             this.context.drawImage(
-                fish.img,
+                image,
                 globalOptions.fish.frames[frameId].x,
                 globalOptions.fish.frames[frameId].y,
                 globalOptions.fish.frames[frameId].width,
@@ -44,7 +44,7 @@ export default class DrawEngine {
             this.context.translate(globalOptions.fish.x + globalOptions.fish.width / 2, fish.y + globalOptions.fish.height / 2);
             this.context.rotate(fish.rotationAngle * Math.PI / 360);
             this.context.drawImage(
-                fish.img,
+                image,
                 globalOptions.fish.frames[frameId].x,
                 globalOptions.fish.frames[frameId].y,
                 globalOptions.fish.frames[frameId].width,
@@ -61,7 +61,8 @@ export default class DrawEngine {
     drawColumns(columnsArray, image) {
         for (let i = 0; i < columnsArray.length; i++) {
 
-            this.context.drawImage(image,
+            this.context.drawImage(
+                image,
                 globalOptions.columns.topColumn.x,
                 columnsArray[i].topColsy,
                 globalOptions.columns.topColumn.width,
@@ -71,7 +72,8 @@ export default class DrawEngine {
                 globalOptions.columns.width,
                 columnsArray[i].topColdHeight)
 
-            this.context.drawImage(image,
+            this.context.drawImage(
+                image,
                 globalOptions.columns.bottomColumn.x,
                 columnsArray[i].bottomColsy,
                 globalOptions.columns.bottomColumn.width,
@@ -83,12 +85,12 @@ export default class DrawEngine {
         }
     }
 
-    displayScore(scoreObj) {
+    displayScore(scoreObj, image) {
         const scoreArr = scoreObj.score.toString().split('');
         const maxScoreArr = scoreObj.maxScore.toString().split('');
 
         this.context.drawImage(
-            scoreObj.img,
+            image,
             globalOptions.menuAssets.scorePanel.x,
             globalOptions.menuAssets.scorePanel.y,
             globalOptions.menuAssets.scorePanel.width,
@@ -103,7 +105,7 @@ export default class DrawEngine {
         for (let i = 0; i < scoreArr.length; i++) {
             let number = scoreArr[i];
             this.context.drawImage(
-                scoreObj.img,
+                image,
                 globalOptions.numbers[number].sx,
                 globalOptions.numbers[number].sy,
                 globalOptions.numbers[number].sWidth,
@@ -121,7 +123,7 @@ export default class DrawEngine {
         for (let i = 0; i < maxScoreArr.length; i++) {
             let number = maxScoreArr[i];
             this.context.drawImage(
-                scoreObj.img,
+                image,
                 globalOptions.numbers[number].sx,
                 globalOptions.numbers[number].sy,
                 globalOptions.numbers[number].sWidth,
