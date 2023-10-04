@@ -33,6 +33,17 @@ export default class Game {
         this.render();
     }
 
+    resetGame() {
+        this.fish = new Fish();
+        this.physEngine = new PhysEngine();
+        this.columns = new Columns();
+        this.background = new Background();
+        this.sounds = new Sounds();
+        this.columnsArray = this.columns.columns;
+        this.isLost = false;
+        this.speed = globalOptions.speedIndex;
+    }
+
     render(timeStamp) {
         if (!isNaN(timeStamp) && Math.floor((timeStamp / 180) % 4) !== this.time) {
             this.time = Math.floor((timeStamp / 180) % 4);
@@ -54,7 +65,6 @@ export default class Game {
             this.scoreGained.play();
             this.increaseGameDifficulty();
         };
-
         
         this.drawEngine.displayScore(this.score, this.scoreImg);
 
@@ -74,17 +84,6 @@ export default class Game {
     newGame() {
         this.canvas.removeEventListener('mousedown', this.resetGameListener);
         this.gameStart();
-    }
-
-    resetGame() {
-        this.fish = new Fish();
-        this.physEngine = new PhysEngine();
-        this.columns = new Columns();
-        this.background = new Background();
-        this.sounds = new Sounds();
-        this.columnsArray = this.columns.columns;
-        this.isLost = false;
-        this.speed = globalOptions.speedIndex;
     }
 
     checkCollision() {
