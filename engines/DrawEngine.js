@@ -150,4 +150,10 @@ export default class DrawEngine {
             buttonType.displayheight);
     }
 
+    drawLoading() {
+        this.context.fillStyle = "black";
+        this.context.font = "bold 48px serif"
+        this.context.fillText('Loading...', (globalOptions.canvas.width / 2), globalOptions.canvas.height / 2);
+    }
+
 }

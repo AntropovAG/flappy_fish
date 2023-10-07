@@ -191,4 +191,9 @@ export default class Game {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
+    displayLoad() {
+        this.clear();
+        this.drawEngine.drawLoading();
+    }
+
 }

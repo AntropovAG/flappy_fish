@@ -12,7 +12,8 @@ const game = new Game(canvas);
 game.createLoadScreen();
 
 const startGame = () => {
-    canvas.removeEventListener('mousedown', startGame)
+    canvas.removeEventListener('mousedown', startGame);
+    game.displayLoad();
     game.loadGameAssets()
         .then(([background, fish, columns, menu, impactSound, scoreGainedSound, gameTheme]) => {
             game.backgroundImg = background;
