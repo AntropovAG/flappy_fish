@@ -153,7 +153,7 @@ export default class DrawEngine {
     drawLoading() {
         this.context.fillStyle = "black";
         this.context.font = "bold 48px serif"
-        this.context.fillText('Loading...', (globalOptions.canvas.width / 2), globalOptions.canvas.height / 2);
+        this.context.fillText('Loading...', (globalOptions.canvas.width / 2) - 100, (globalOptions.canvas.height / 2), 200);
     }
 
 }
